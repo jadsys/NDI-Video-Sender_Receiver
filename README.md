@@ -3,71 +3,62 @@ NDI Video Sender / NDI Video Receiver
 
 ![image](https://github.com/jadsys/NDI-Video-Sender_Receiver/wiki/images/image_01.png)
 
-** NDI Video Sender / NDI Video Receiver ** は、Windows/Ubuntuで動作する
-[NewTek NDI]プロトコルのサンプルプログラムで、ローカルエリアネットワーク経由で
-複数のコンピュータ間でビデオを送受信できます。
-
-NDI™ is a trademark of NewTek, Inc.
-
+** NDI Video Sender / NDI Video Receiver ** は、Windows/Ubuntuで動作する  
+[NewTek NDI]プロトコルのサンプルプログラムで、ローカルエリアネットワーク経由で  
+複数のコンピュータ間でビデオを送受信できます。  
+  
+NDI™ is a trademark of NewTek, Inc.  
+  
 [NewTek NDI]: http://NDI.NewTek.com/
-
+  
 System requirements & Installations
 -------------------
-Windowsのシステム要件および構築の手順については 
-"Installation manual (Windows) .pdf"をご参照下さい。
-
-Linux（Ubuntu）のシステム要件および構築の手順については
-"Installation manual (Ubuntu) .pdf"をご参照下さい。
-
+Windowsのシステム要件および構築の手順については  
+"Installation manual (Windows) .pdf"をご参照下さい。  
+  
+Linux（Ubuntu）のシステム要件および構築の手順については  
+"Installation manual (Ubuntu) .pdf"をご参照下さい。  
+  
 How to use
 --------------------
-
+  
 ### NDI Video Sender
-
-１．WebカメラをUSB接続する。
-
-２．ソースフォルダにある「NdiVideoSender.config」を編集する。
-　　（編集内容については同ファイル内のコメント及び例を参照のこと）
-
-３．プログラムの引数に編集したカメラ番号を指定して実行する。
-　※実行の方法はInstallation manual(Windows)及びInstallation manual(Ubuntu)
-　　をご参照下さい。（NDI-Video-Sender及びNDI-Video-Receiverどちらも同じ方法です）
-　※windowsではNDI-Video-Sender\x64\Releaseの中のNDI-Video-Sender.exeを
-　　コマンド・プロンプト上から実行することも可能です。ただし、NdiVideoSender.config
-　　も必要となります。
-　　その場合は以下のようにコマンドを打ち込みます。　
-　　>cd 実行ファイルまでの場所（Cドライブ直下ならcd c:\）
-　　>NDI-Video-Sender.exe X(Xは起動引数)
-
-４．Ctrl＋Cを押せば終了します。
-
-　※IPカメラも指定することが可能です。その場合、Camera_Flag_CAMXを「false」に
-　　設定し、Camera_ID_CAMXにURLを指定して下さい。
-
-
+  
+1.Webカメラを接続する。  
+  
+2.カメラの送信設定を行う。  
+  ソースフォルダ内にある「NdiVideoSender.config」を、実行ファイル(.exe)と  
+  同じフォルダにコピーし、中身を編集する。  
+  (編集内容については同ファイル内のコメント及び例をご参照下さい。  
+   最大6個のカメラ設定を入れることが可能です)  
+  
+3.プログラム実行時の起動引数に、2.で編集したカメラ番号を指定する。  
+  (実行の方法は「Installation manual」をご参照下さい)  
+  
+4.終了時は「Ctrl＋C」を押下する。  
+  
+  ※IPカメラも指定することが可能です。その場合、Camera_Flag_CAMXを  
+    「false」に設定し、Camera_ID_CAMXにカメラURLを指定して下さい。  
+  
+  
 ### NDI Video Receiver
-
-１．ソースフォルダにある「NdiVideoReceiver.config」を編集する。
-　※Resources_ID_CHXの値はNdiVideoSender.configのResources_ID_CAMXと一致していることを
-　　確認して下さい。
-
-２．プログラムの引数にNDI-Video-Senderで指定した起動引数と同じ番号を指定して実行する。
-　※実行の方法はInstallation manual(Windows)及びInstallation manual(Ubuntu)
-　　をご参照下さい。（NDI-Video-Sender及びNDI-Video-Receiverどちらも同じ方法です）
-　※windowsではNDI-Video-Receiver\x64\Releaseの中のNDI-Video-Sender.exeを
-　　コマンド・プロンプト上から実行することも可能です。ただし、NdiVideoReceiver.config
-　　も必要となります。
-　　その場合は以下のようにコマンドを打ち込みます。　
-　　>cd 実行ファイルまでの場所（Cドライブ直下ならcd c:\）
-　　>NDI-Video-Receiver.exe X(Xは起動引数)
-
-３．Ctrl＋Cを押せば終了します。
-
+	
+1.カメラの受信設定を行う。  
+  ソースフォルダ内にある「NdiVideoReceiver.config」を、実行ファイル(.exe)と  
+  同じフォルダにコピーし、中身を編集する。  
+  (Resources_ID_CHXの値はSenderで設定したResources_ID_CAMXを指定して下さい)  
+  
+2.プログラム実行時の起動引数に、2.で編集したカメラ番号を指定する。  
+  (実行の方法は「Installation manual」をご参照下さい)  
+  
+3.終了時は「Ctrl＋C」を押下する。  
+  
+  
 License
 -------
 
 [GPL](LICENSE)
 
-The NDI DLL file (`Processing.NDI.Lib.x64.dll`) is provided by NewTek, 
-Inc under the NDI® SDK License Agreement.
-Please review the original license when distributing program.
+The NDI DLL file (`Processing.NDI.Lib.x64.dll`) is provided by NewTek,   
+Inc under the NDI® SDK License Agreement.  
+Please review the original license when distributing program.  
