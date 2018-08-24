@@ -6,6 +6,8 @@ NDI Video Sender / NDI Video Receiver
 ** NDI Video Sender / NDI Video Receiver ** は、Windows/Ubuntuで動作する  
 [NewTek NDI]プロトコルのサンプルプログラムで、ローカルエリアネットワーク経由で  
 複数のコンピュータ間でビデオを送受信できます。  
+  UVC規格のWebカメラ、IPカメラ、Depthカメラ(RealSense D435)からの映像をNDIプロトコルを  
+介して送受信することが可能です。
   
 NDI™ is a trademark of NewTek, Inc.  
   
@@ -24,7 +26,7 @@ How to use
   
 ### NDI Video Sender
   
-1.Webカメラを接続する。  
+1.Webカメラ or IPカメラ or Depthカメラ(RealSense)を接続する。  
   
 2.カメラの送信設定を行う。  
   ソースフォルダ内にある「NdiVideoSender.config」を、実行ファイル(.exe)と  
