@@ -10,7 +10,7 @@ using namespace std;
 /* コンストラクタ */
 ConfigRead::ConfigRead()
 {
-	//初期化
+	// 初期化
 	m_defvalue = "";
 	m_int_defvalue = 0;
 }
@@ -18,6 +18,7 @@ ConfigRead::ConfigRead()
 /* デストラクタ */
 ConfigRead::~ConfigRead()
 {
+	// 処理なし
 }
 
 /****************************************************************************
@@ -42,13 +43,14 @@ string ConfigRead::getDefaultValue()
 *　setterメソッド															
 *																			
 *****************************************************************************/
+/* デフォルト値の設定 */
 void ConfigRead::setDefaltValue(string op_name)
 {
-	//発見位置が帰る
+	// op_nameに入ってきたオプションに一致するデフォルト値が入る
 	if (!op_name.find("Resources_ID_CH"))
 	{
-		m_defvalue = "";//デフォルトは空文字
-		m_int_defvalue = 1;//設定項目番号
+		m_defvalue = ""; // デフォルトは空文字
+		m_int_defvalue = 1; // 設定項目番号
 	}
 }
 
@@ -59,38 +61,39 @@ void ConfigRead::setDefaltValue(string op_name)
 *****************************************************************************/
 string ConfigRead::readConfigFile(string op_name)
 {
-	string str_cnf;//1行分のコンフィグデータ格納
-	string str_property;//プロパティ格納用
+	string str_cnf; // 1行分のコンフィグデータ格納
+	string str_property; // プロパティ格納用
 
-	//検索前の初期化
+	// 検索前の初期化
 	setDefaltValue(op_name);
 
-	//configファイル読み込み
+	// configファイル読み込み
 	ifstream iconfig_stream(CONFIG_FILE_NAME);
 
-	//読み込みチェック
+	// 読み込みチェック
 	if (!iconfig_stream)
 	{
 		printf("ファイル名が%sと一致しているか確認して下さい。\n", CONFIG_FILE_NAME);
-		return (getDefaultValue());//読み込み失敗時defaultを読み込む
+		return (getDefaultValue()); // 読み込み失敗時defaultを読み込む
 	}
 	else
 	{
 		while (true)
 		{
-			//一行読み出す
+			// 一行読み出す
 			if (getline(iconfig_stream, str_cnf))
 			{
-				//コメントと不正な値を弾く
+				// コメントと不正な値を弾く
 				if (str_cnf.find("#") == -1 && str_cnf.find(op_name) != -1)
 				{
-					str_property = getProperty(str_cnf, op_name);//値を読み込み格納
+					// 読み出した1行からプロパティだけをトリミング
+					str_property = getProperty(str_cnf, op_name);
 					break;
 				}
 			}
 			else
 			{
-				str_property = getDefaultValue();//読み込み失敗時defaultを読み込む
+				str_property = getDefaultValue(); // 読み込み失敗時defaultを読み込む
 				break;
 			}
 		}
@@ -106,24 +109,24 @@ string ConfigRead::readConfigFile(string op_name)
 string ConfigRead::getProperty(string conf_data, string op_name)
 {
 	/* プロパティの値を抜き出す */
-	const char* trimCharacterList = " \t\v\r\n";//各特殊文字のトリム用
-	//ex)lineStr:"Option1 = true  \n"
-	//右側から最初の文字列を検索
-	size_t p_end = conf_data.find_last_not_of(trimCharacterList);//lineStr:"Option1 = true"
-	//=の位置検索
-	size_t p_start = conf_data.find("=") + 1; //lineStr:" true"
-	//オプション値の空欄を検出
+	const char* trimCharacterList = " \t\v\r\n"; // 各特殊文字のトリム用
+	// ex)lineStr:"Option1 = true  \n"
+	// 右側から最初の文字列を検索
+	size_t p_end = conf_data.find_last_not_of(trimCharacterList); // lineStr:"Option1 = true"
+	// =の位置検索
+	size_t p_start = conf_data.find("=") + 1; // lineStr:" true"
+	// オプション値の空欄を検出
 	if (!(p_start < p_end))
 	{
-		return (getDefaultValue());//defaultを読み込む
+		return (getDefaultValue()); // defaultを読み込む
 	}
-	//左側から最初の文字列を検索
-	p_start = conf_data.find_first_not_of(trimCharacterList, p_start);//lineStr = "true"
+	// 左側から最初の文字列を検索
+	p_start = conf_data.find_first_not_of(trimCharacterList, p_start); // lineStr = "true"
 
-	//プロパティの値の文字の長さ
+	// プロパティの値の文字の長さ
 	size_t p_leng = p_end - p_start + 1;
 
-	//プロパティ値だけ抜き出し返す
+	// プロパティ値だけ抜き出し返す
 	return (conf_data.substr(p_start, p_leng));
 }
 

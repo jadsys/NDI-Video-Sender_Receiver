@@ -2,7 +2,7 @@ CC         = gcc
 CXX        = g++
 CXXFLAGS   = -std=c++11 -pthread -MMD -I../../../include
 LDFLAGS    = -L../../../lib/$(NDILIB) -Wl,-rpath='$$ORIGIN'
-LDLIBS     = -lm -lndi -ldl -lpthread -lopencv_core -lopencv_imgcodecs -lopencv_highgui -lopencv_videoio -lopencv_imgproc
+LDLIBS     = -lm -lndi -ldl -lpthread -lopencv_core -lopencv_imgcodecs -lopencv_highgui -lopencv_videoio -lopencv_imgproc -lrealsense2
 RM         = @rm
 LN         = @ln
 SRC        = $(wildcard *.cpp)

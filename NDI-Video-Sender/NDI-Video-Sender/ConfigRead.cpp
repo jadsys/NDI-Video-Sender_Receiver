@@ -10,7 +10,7 @@ using namespace std;
 /* コンストラクタ */
 ConfigRead::ConfigRead()
 {
-	//初期化
+	// 初期化
 	m_defvalue = "";
 	m_int_defvalue = 0;
 }
@@ -18,6 +18,7 @@ ConfigRead::ConfigRead()
 /* デストラクタ */
 ConfigRead::~ConfigRead()
 {
+	// 処理なし
 }
 
 /****************************************************************************
@@ -28,12 +29,12 @@ ConfigRead::~ConfigRead()
 /* コンフィグからの値取得(String型) */
 string ConfigRead::GetStringProperty(string op_name)
 {
-	string str_read_property = readConfigFile(op_name);// configファイルから読み込んだ生の値を格納用
+	string str_read_property = readConfigFile(op_name); // configファイルから読み込んだ生の値を格納用
 
 	// configから読み込んだ値が想定された値かチェック
 	if (!checkValue(str_read_property))
 	{
-		str_read_property = getDefaultValue(op_name);//デフォルトを読み込む
+		str_read_property = getDefaultValue(op_name); // デフォルトを読み込む
 	}
 
 	return (str_read_property);
@@ -42,19 +43,19 @@ string ConfigRead::GetStringProperty(string op_name)
 /* コンフィグからの値取得(bool型) */
 bool ConfigRead::GetBoolProperty(string op_name)
 {
-	string str_read_property = readConfigFile(op_name);// configファイルから読み込んだ生の値を格納用
-	bool bool_read_property = false;// bool型に変換した値の格納用
+	string str_read_property = readConfigFile(op_name); // configファイルから読み込んだ生の値を格納用
+	bool bool_read_property = false; // bool型に変換した値の格納用
 
 	// configから読み込んだ値が想定された値かチェック
 	if (!checkValue(str_read_property))
 	{
-		//デフォルトの値を読み込む
+		// デフォルトの値を読み込む
 		str_read_property = getDefaultValue(op_name);
 	}
 
 	// string型→bool型へ変換(デフォルトがfalseのため、falseの変換は必要なし)
-	//windowsでは標準関数がstricmpになる
-	//機能はどちらも大文字小文字関係なく比較を行う
+	// windowsでは標準関数がstricmpになる
+	// 機能はどちらも大文字小文字関係なく比較を行う
 	if (strcasecmp(str_read_property.c_str(), "true") == 0)
 	{
 		bool_read_property = true;
@@ -66,13 +67,13 @@ bool ConfigRead::GetBoolProperty(string op_name)
 /* コンフィグからの値取得(int型) */
 int ConfigRead::GetIntProperty(string op_name) 
 {
-	string str_read_property = readConfigFile(op_name);// configファイルから読み込んだ生の値を格納用
-	int int_read_property;// int型に変換した値の格納用
+	string str_read_property = readConfigFile(op_name); // configファイルから読み込んだ生の値を格納用
+	int int_read_property; // int型に変換した値の格納用
 
 	// configから読み込んだ値が想定された値かチェック
 	if (!checkValue(str_read_property))
 	{
-		//デフォルトの値を読み込む
+		// デフォルトの値を読み込む
 		str_read_property = getDefaultValue(op_name);
 	}
 
@@ -93,10 +94,12 @@ string ConfigRead::getDefaultValue(string op_name)
 *　setterメソッド															
 *																			
 *****************************************************************************/
+/* デフォルト値の設定 */
 void ConfigRead::setDefaltValue(string op_name)
 {
+	// op_nameに入ってきたオプションに一致するデフォルト値が入る
 	if (!op_name.find("SwitchCamera", 0))
-	{//発見位置が帰る
+	{
 		m_defvalue = "false";
 		m_int_defvalue = 1;
 	}
@@ -105,9 +108,9 @@ void ConfigRead::setDefaltValue(string op_name)
 		m_defvalue = "Camera_default";
 		m_int_defvalue = 2;
 	}
-	else if (!op_name.find("Camera_Flag"))
+	else if (!op_name.find("Camera_Types"))
 	{
-		m_defvalue = "true";
+		m_defvalue = "web";
 		m_int_defvalue = 3;
 	}
 	else if (!op_name.find("Camera_ID"))
@@ -155,36 +158,36 @@ void ConfigRead::setDefaltValue(string op_name)
 *****************************************************************************/
 string ConfigRead::readConfigFile(string op_name)
 {
-	string str_cnf;//1行分のコンフィグデータ格納
-	string str_property;//プロパティ格納用
+	string str_cnf; // 1行分のコンフィグデータ格納
+	string str_property; // プロパティ格納用
 
-	//検索前の初期化
+	// 検索前の初期化
 	setDefaltValue(op_name);
 
-	//configファイル読み込み
+	// configファイル読み込み
 	ifstream iconfig_stream(CONFIG_FILE_NAME);
 	if (!iconfig_stream)
 	{
-		return (getDefaultValue(op_name));//読み込み失敗時defaultを読み込む
+		return (getDefaultValue(op_name)); // 読み込み失敗時defaultを読み込む
 	}
 	else
 	{
 		while (true)
 		{
-			//一行読み出す
+			// 一行読み出す
 			if (getline(iconfig_stream, str_cnf))
 			{
-				//コメントと不正な値を弾く
+				// コメントと不正な値を弾く
 				if (str_cnf.find("#") == -1 && str_cnf.find(op_name) != -1)
 				{
-					//読み出した1行からプロパティだけをトリミング
+					// 読み出した1行からプロパティだけをトリミング
 					str_property = getProperty(str_cnf, op_name);
 					break;
 				}
 			}
 			else
 			{
-				str_property = getDefaultValue(op_name);//読み込み失敗時defaultを読み込む
+				str_property = getDefaultValue(op_name); // 読み込み失敗時defaultを読み込む
 				break;
 			}
 		}
@@ -201,22 +204,22 @@ string ConfigRead::getProperty(string conf_data, string op_name)
 {
 	/* プロパティの値を抜き出す */
 	const char* trimCharacterList = " \t\v\r\n";
-	//ex)lineStr = "Option1 = true  \n"
-	//右側から最初の文字列を検索
-	size_t p_end = conf_data.find_last_not_of(trimCharacterList);//lineStr = "Option1 = true"
-	//＝の位置検索
-	size_t p_start = conf_data.find("=") + 1; //lineStr = " true"
-	//オプション値の空欄を検出
+	// ex)lineStr = "Option1 = true  \n"
+	// 右側から最初の文字列を検索
+	size_t p_end = conf_data.find_last_not_of(trimCharacterList); // lineStr = "Option1 = true"
+	// ＝の位置検索
+	size_t p_start = conf_data.find("=") + 1; // lineStr = " true"
+	// オプション値の空欄を検出
 	if (!(p_start < p_end))
 	{
-		return (getDefaultValue(op_name));//defaultを読み込む
+		return (getDefaultValue(op_name)); // defaultを読み込む
 	}
-	//左側から最初の文字列を検索
-	p_start = conf_data.find_first_not_of(trimCharacterList, p_start);//lineStr = "true"
-																	  //プロパティの値の文字の長さ
+	// 左側から最初の文字列を検索
+	p_start = conf_data.find_first_not_of(trimCharacterList, p_start); // lineStr = "true"
+	// プロパティの値の文字の長さ
 	size_t p_leng = p_end - p_start + 1;
 
-	//プロパティ値だけ抜き出し返す
+	// プロパティ値だけ抜き出し返す
 	return (conf_data.substr(p_start, p_leng));
 }
 
@@ -229,41 +232,54 @@ bool ConfigRead::checkValue(string value)
 {
 	switch (m_int_defvalue)
 	{
-	case 1://カメラを使用するか
-		//windowsでは標準関数がstricmpになる
-		//機能はどちらも大文字小文字関係なく比較を行う
+	case 1: // カメラを使用するか
+		// windowsでは標準関数がstricmpになる
+		// 機能はどちらも大文字小文字関係なく比較を行う
 		if (!strcasecmp(value.c_str(), "true") == 0)
 		{
 			return (false);
 		}
 		break;
-	case 3://リソースがWEBカメラか
-	case 9://送信側のタイムコードを表示するか
-	case 10://プレビューを表示するか
-		//windowsでは標準関数がstricmpになる
-		//機能はどちらも大文字小文字関係なく比較を行う
+	
+	case 9: // 送信側のタイムコードを表示するか
+	case 10: // プレビューを表示するか
+		// windowsでは標準関数がstricmpになる
+		// 機能はどちらも大文字小文字関係なく比較を行う
 		if (!strcasecmp(value.c_str(), "false") == 0)
 		{
 			return (false);
 		}
 		break;
-	case 2://リソース名
+	case 3: // リソースのカメラの種類
+		if ((strcasecmp(value.c_str(), "web") != 0) &&
+			(strcasecmp(value.c_str(), "ip") != 0) &&
+			(strcasecmp(value.c_str(), "realsense") != 0) &&
+			(strcasecmp(value.c_str(), "rs") != 0))
+		{
+			return (false);
+		}
 		break;
-	case 4://リソース先
+	case 2: // リソース名
+		break;
+	case 4: // リソース先
 		try
 		{
-			//string→int変換
+			// string→int変換
 			if (!(0 <= stoi(value)))
 			{
 				return (false);
 			}
 			break;
 		}
-		catch (std::invalid_argument)
+		catch (invalid_argument)
 		{
 			break;
 		}
-	case 5://フレームサイズxres
+		catch (out_of_range)
+		{
+			break;
+		}
+	case 5: // フレームサイズxres
 		try
 		{
 			if (!(0 < stoi(value)))
@@ -271,13 +287,13 @@ bool ConfigRead::checkValue(string value)
 				return (false);
 			}
 		}
-		catch (std::invalid_argument)
+		catch (invalid_argument)
 		{
-			//数値以外入ってきた場合
+			// 数値以外入ってきた場合
 			return (false);
 		}
 		break;
-	case 6://フレームサイズyres
+	case 6: // フレームサイズyres
 		try
 		{
 			if (!(0 < stoi(value)))
@@ -285,13 +301,13 @@ bool ConfigRead::checkValue(string value)
 				return (false);
 			}
 		}
-		catch (std::invalid_argument)
+		catch (invalid_argument)
 		{
-			//数値以外入ってきた場合
+			// 数値以外入ってきた場合
 			return (false);
 		}
 		break;
-	case 7://フレームレート
+	case 7: // フレームレート
 		try
 		{
 			if (!(0 < stoi(value) && stoi(value) <= 250))
@@ -299,13 +315,13 @@ bool ConfigRead::checkValue(string value)
 				return (false);
 			}
 		}
-		catch (std::invalid_argument)
+		catch (invalid_argument)
 		{
-			//数値以外入ってきた場合
+			// 数値以外入ってきた場合
 			return (false);
 		}
 		break;
-	case 8://色のフォーマット
+	case 8: // 色のフォーマット
 		try
 		{
 			if (!(0 < stoi(value) && stoi(value) < 6))
@@ -314,9 +330,9 @@ bool ConfigRead::checkValue(string value)
 			}
 			break;
 		}
-		catch (std::invalid_argument)
+		catch (invalid_argument)
 		{
-			//数値以外入ってきた場合
+			// 数値以外入ってきた場合
 			return (false);
 		}
 		break;
