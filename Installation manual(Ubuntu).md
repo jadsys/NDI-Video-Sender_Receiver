@@ -186,10 +186,15 @@ $ ll Makefile*
 CXXFLAGS   = -std=c++11 -pthread -MMD -I../../../include
 ```
 
- 5行目も以下のように変更して下さい。  
+ 5行目を以下のように変更して下さい。  
 ```d
 LDLIBS     = -lm -lndi -ldl -lpthread -lopencv_core -lopencv_imgcodecs -lopencv_highgui \
              -lopencv_videoio -lopencv_imgproc -lrealsense2
+```
+
+ 30行目も以下のように変更して下さい。  
+```d
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 ```
 
  続いて実行用のフォルダを作ります。  
