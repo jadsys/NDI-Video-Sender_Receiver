@@ -59,7 +59,7 @@ How to use
 License
 -------
 
-[GPL](LICENSE)
+[BSD](LICENSE)
 
 The NDI DLL file (`Processing.NDI.Lib.x64.dll`) is provided by NewTek,   
 Inc under the NDI® SDK License Agreement.  
