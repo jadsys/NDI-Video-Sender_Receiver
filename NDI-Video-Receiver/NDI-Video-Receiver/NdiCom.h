@@ -6,7 +6,7 @@
 #include <string>
 #include <thread>
 #include <atomic>
-#include <opencv/cv.hpp>    // cvtColor
+//#include <opencv/cv.hpp>    // cvtColor
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>

@@ -147,7 +147,7 @@ void Realsense::sndVideo()
 			myframe = cv::Mat(m_color_height, m_color_width, CV_8UC3, const_cast<void *>(color_frame.get_data()));
 
 			// 変換の色を変更
-			cv_color = CV_BGR2BGRA;
+			cv_color = cv::COLOR_BGR2BGRA;
 
 			break;
 
@@ -164,7 +164,7 @@ void Realsense::sndVideo()
 			myframe = cv::Mat(m_depth_height, m_depth_width, CV_8UC3, const_cast<void*>(depth_frame.get_data()));
 
 			// 変換の色を変更
-			cv_color = CV_BGR2BGRA;
+			cv_color = cv::COLOR_BGR2BGRA;
 			
 			break;
 
@@ -180,7 +180,7 @@ void Realsense::sndVideo()
 			myframe = cv::Mat(m_IR_height, m_IR_width, CV_8UC1, const_cast<void*>(ir1_frame.get_data()));
 
 			// 変換の色を変更
-			cv_color = CV_GRAY2BGRA;
+			cv_color = cv::COLOR_GRAY2BGRA;
 			
 			break;
 
@@ -196,7 +196,7 @@ void Realsense::sndVideo()
 			myframe = cv::Mat(m_IR_height, m_IR_width, CV_8UC1, const_cast<void*>(ir2_frame.get_data()));
 
 			// 変換の色を変更
-			cv_color = CV_GRAY2BGRA;
+			cv_color = cv::COLOR_GRAY2BGRA;
 			
 			break;
 		}
@@ -231,7 +231,7 @@ void Realsense::sndVideo()
 				0.8, // 文字の大きさ
 				cv::Scalar(0, 0, 0), // 文字の色
 				1, // 線の太さ
-				CV_AA // アンチエイリアス
+				cv::LINE_AA // アンチエイリアス
 			);
 		}
 

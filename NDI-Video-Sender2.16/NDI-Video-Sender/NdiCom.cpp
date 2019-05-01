@@ -133,6 +133,7 @@ void NdiCom::setFps(int sndfps)
 /* 送信するカラーフォーマットの設定 */
 void NdiCom::setColor(int sndColor)
 {
+	/*
 	// 現状ではこの設定は固定である
 	switch (sndColor)
 	{
@@ -162,6 +163,7 @@ void NdiCom::setColor(int sndColor)
 		m_setCVCamColor = CV_FOURCC('U', 'Y', 'V', 'Y');
 		break;
 	}
+	*/
 
 }
 
@@ -289,13 +291,13 @@ void NdiCom::sndVideo()
 
 	// オープンしたカメラデバイスの設定
 	// cap.set(CV_CAP_PROP_FOURCC, setCVCamColor); // m_setCVCamColor指摘先
-	cap.set(CV_CAP_PROP_FRAME_WIDTH, m_xres);  // 幅
-	cap.set(CV_CAP_PROP_FRAME_HEIGHT, m_yres); // 高さ
-	cap.set(CV_CAP_PROP_FPS, m_sndfps); // フレームレート
+	cap.set(cv::CAP_PROP_FRAME_WIDTH, m_xres);  // 幅
+	cap.set(cv::CAP_PROP_FRAME_HEIGHT, m_yres); // 高さ
+	cap.set(cv::CAP_PROP_FPS, m_sndfps); // フレームレート
 
 	// フレームサイズ更新（カメラの性能以上要求によるエラー落ち対策）
-	m_xres = (int)cap.get(CV_CAP_PROP_FRAME_WIDTH); // 横方向
-	m_yres = (int)cap.get(CV_CAP_PROP_FRAME_HEIGHT); // 縦方向
+	m_xres = (int)cap.get(cv::CAP_PROP_FRAME_WIDTH); // 横方向
+	m_yres = (int)cap.get(cv::CAP_PROP_FRAME_HEIGHT); // 縦方向
 
 	// カメラオープン成功判定
 	if (!cap.isOpened())
@@ -366,10 +368,10 @@ void NdiCom::sndVideo()
 				0.8, // 文字の大きさ
 				cv::Scalar(0, 0, 0), // 文字の色
 				1, // 線の太さ
-				CV_AA // アンチエイリアス
+				cv::LINE_AA // アンチエイリアス
 			);
 		}
-		cv::cvtColor(myframe, sndframe, CV_BGR2BGRA); // m_sndCVColorの指定先。色の変換(NDI送信用フレームに乗せるにはBGRXに変換する必要がある)
+		cv::cvtColor(myframe, sndframe, cv::COLOR_BGR2BGRA); // m_sndCVColorの指定先。色の変換(NDI送信用フレームに乗せるにはBGRXに変換する必要がある)
 		
 		memcpy((void*)video_frame.p_data, sndframe.data, (m_xres * m_yres * 4)); // OpenCVのフレームをNDIフレームデータにコピー
 		
