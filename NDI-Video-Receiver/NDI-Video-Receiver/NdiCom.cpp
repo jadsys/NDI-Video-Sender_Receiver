@@ -1,4 +1,4 @@
-
+ï»¿
 #include "NdiCom.h"
 
 
@@ -7,14 +7,14 @@ using namespace std;
 
 /****************************************************************************
 *																			
-*@ƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^												
+*ã€€ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ»ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿												
 *																			
 *****************************************************************************/
-/* ƒRƒ“ƒXƒgƒ‰ƒNƒ^ */
+/* ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ */
 NdiCom::NdiCom(const int channel_no, const NDIlib_source_t& p_source)
 	: m_pNDI_recv(NULL), m_channel_no(channel_no)
 {
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	m_exit_rec_loop = true;
 	m_isHighest = true;
 	m_isRecv = true;
@@ -22,7 +22,7 @@ NdiCom::NdiCom(const int channel_no, const NDIlib_source_t& p_source)
 
 	// Display the frames per second
 	printf("Channel %d is connecting to %s.\n", m_channel_no, p_source.p_ndi_name);
-	m_str_resname = "CH" + to_string(m_channel_no) + " " + p_source.p_ndi_name; // ƒ`ƒƒƒ“ƒlƒ‹”Ô†{ƒŠƒ\[ƒX–¼‚ÌŠi”[
+	m_str_resname = "CH" + to_string(m_channel_no) + " " + p_source.p_ndi_name; // ãƒãƒ£ãƒ³ãƒãƒ«ç•ªå·ï¼‹ãƒªã‚½ãƒ¼ã‚¹åã®æ ¼ç´
 
 	if (m_str_resname.find("RealSense") != -1)
 	{
@@ -30,18 +30,18 @@ NdiCom::NdiCom(const int channel_no, const NDIlib_source_t& p_source)
 	}
 
 	NDIlib_recv_create_t recv_create_desc = { p_source, NDIlib_recv_color_format_e_BGRX_BGRA, NDIlib_recv_bandwidth_highest, true }; // FULL
-//	NDIlib_recv_create_t m_recv_create_desc = { p_source, NDIlib_recv_color_format_e_BGRX_BGRA, NDIlib_recv_bandwidth_lowest, true };  // ’á‰ğ‘œ“xŒü‚¯
+//	NDIlib_recv_create_t m_recv_create_desc = { p_source, NDIlib_recv_color_format_e_BGRX_BGRA, NDIlib_recv_bandwidth_lowest, true };  // ä½è§£åƒåº¦å‘ã‘
 
-	// ‰ğ‘œ“xİ’è
+	// è§£åƒåº¦è¨­å®š
 	if (recv_create_desc.bandwidth == NDIlib_recv_bandwidth_lowest)
 	{
-		m_isHighest = false; // ‚‰ğ‘œ“xƒtƒ‰ƒOƒIƒt
+		m_isHighest = false; // é«˜è§£åƒåº¦ãƒ•ãƒ©ã‚°ã‚ªãƒ•
 	}
 
 	// Create the receiver
 	m_pNDI_recv = NDIlib_recv_create_v2(&recv_create_desc);
 
-	// ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬ƒ`ƒFƒbƒN
+	// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆãƒã‚§ãƒƒã‚¯
 	if (!m_pNDI_recv)
 	{
 		printf("NDIlib_recv_instance_t create failure.\n");
@@ -49,10 +49,10 @@ NdiCom::NdiCom(const int channel_no, const NDIlib_source_t& p_source)
 	}
 
 	// Start a thread to receive frames
-	creatRecVideoThread(); // óM—pThread‚Ìì¬
+	creatRecVideoThread(); // å—ä¿¡ç”¨Threadã®ä½œæˆ
 }
 
-/* ƒfƒXƒgƒ‰ƒNƒ^ */
+/* ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ */
 NdiCom::~NdiCom()
 {
 }
@@ -60,10 +60,10 @@ NdiCom::~NdiCom()
 
 /****************************************************************************
 *																			
-*@getterƒƒ\ƒbƒh															
+*ã€€getterãƒ¡ã‚½ãƒƒãƒ‰															
 *																			
 *****************************************************************************/
-/* óMƒtƒ‰ƒO */
+/* å—ä¿¡ãƒ•ãƒ©ã‚° */
 bool NdiCom::GetIsRecFlg()
 {
 	return (m_isRecv);
@@ -71,116 +71,116 @@ bool NdiCom::GetIsRecFlg()
 
 /****************************************************************************
 *																			
-*@setterƒƒ\ƒbƒh															
+*ã€€setterãƒ¡ã‚½ãƒƒãƒ‰															
 *																			
 *****************************************************************************/
 
 
 /****************************************************************************
 *																			
-*@óMˆ—																	
+*ã€€å—ä¿¡å‡¦ç†																	
 *																			
 *****************************************************************************/
-/* óMˆ—–{‘Ì */
+/* å—ä¿¡å‡¦ç†æœ¬ä½“ */
 void NdiCom::recVideo()
 {
-	// ƒ[ƒJƒ‹•Ï”éŒ¾
-	string strFps; // FPSŠi”[—p
-	char crrent_time_c[20]; // Ši”[—p•Ï”
-	int frame_no = 0; // ƒtƒŒ[ƒ€”Ô†Ši”[—p
-	bool isInitialized = false; // ‰ŠúÏ‚İƒtƒ‰ƒO
-	auto prev_time = std::chrono::high_resolution_clock::now(); // Œ»İæ“¾
-	NDIlib_video_frame_v2_t video_frame; // ‰f‘œ—pƒtƒŒ[ƒ€‚Ì¶¬
-	cv::Point point(30, 30); // ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ÌÀ•Ww’è
-	m_exit_rec_loop = false; // óMI—¹ƒtƒ‰ƒO
+	// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°å®£è¨€
+	string strFps; // FPSæ ¼ç´ç”¨
+	char crrent_time_c[20]; // æ™‚åˆ»æ ¼ç´ç”¨å¤‰æ•°
+	int frame_no = 0; // ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·æ ¼ç´ç”¨
+	bool isInitialized = false; // åˆæœŸæ¸ˆã¿ãƒ•ãƒ©ã‚°
+	auto prev_time = std::chrono::high_resolution_clock::now(); // ç¾åœ¨æ™‚åˆ»å–å¾—
+	NDIlib_video_frame_v2_t video_frame; // æ˜ åƒç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç”Ÿæˆ
+	cv::Point point(30, 30); // ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã®åº§æ¨™æŒ‡å®š
+	m_exit_rec_loop = false; // å—ä¿¡çµ‚äº†ãƒ•ãƒ©ã‚°
 
 	while (!m_exit_rec_loop)
 	{
-		// óMŠJn
+		// å—ä¿¡é–‹å§‹
 		if (NDIlib_recv_capture_v2(m_pNDI_recv, &video_frame, NULL, NULL, 1000) == NDIlib_frame_type_video)
 		{
-			// Every 1000 frames we check how long it has taken (1000ƒtƒŒ[ƒ€‚²‚Æ‚ÉB‰eŠÔ‚ğŠm”F‚µ‚Ä‚¢‚Ü‚·)
+			// Every 1000 frames we check how long it has taken (1000ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã«æ’®å½±æ™‚é–“ã‚’ç¢ºèªã—ã¦ã„ã¾ã™)
 			if (frame_no == 200)
 			{
-				// Get the time (ŠÔ‚ğ“¾‚é)
+				// Get the time (æ™‚é–“ã‚’å¾—ã‚‹)
 				const auto this_time = chrono::high_resolution_clock::now();
 				strFps = m_str_resname + " " + "FPS:" + to_string((float)frame_no / chrono::duration_cast<chrono::duration<float>>(this_time - prev_time).count());
 				
-				// Œ»İæ“¾
-				const auto current_time = chrono::system_clock::now(); // ŠÔæ“¾
-				time_t current_time_t = std::chrono::system_clock::to_time_t(current_time); // time_tŒ^•ÏŠ·
-				struct tm *now_tm = localtime(&current_time_t); // “ú–{ŠÔ‚É•ÏX
+				// ç¾åœ¨æ™‚åˆ»å–å¾—
+				const auto current_time = chrono::system_clock::now(); // æ™‚é–“å–å¾—
+				time_t current_time_t = std::chrono::system_clock::to_time_t(current_time); // time_tå‹å¤‰æ›
+				struct tm *now_tm = localtime(&current_time_t); // æ—¥æœ¬æ™‚é–“ã«å¤‰æ›´
 				strftime(crrent_time_c, 128, "%Y/%m/%d %H:%M:%S", now_tm);
 
-				// Display the frames per second and current time.    (–ˆ•b‚ÌƒtƒŒ[ƒ€‚ÆŒ»İ‚ğ•\¦‚·‚é)
+				// Display the frames per second and current time.    (æ¯ç§’ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã¨ç¾åœ¨æ™‚åˆ»ã‚’è¡¨ç¤ºã™ã‚‹)
 				printf("[%s] %s\n", crrent_time_c, strFps.c_str());
 
-				// Cycle the timers and reset the count (ƒ^ƒCƒ}[‚ğ‰ñ‚µ‚ÄƒJƒEƒ“ƒg‚ğƒŠƒZƒbƒg‚·‚é)
+				// Cycle the timers and reset the count (ã‚¿ã‚¤ãƒãƒ¼ã‚’å›ã—ã¦ã‚«ã‚¦ãƒ³ãƒˆã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹)
 				prev_time = this_time;
 				frame_no = 0;
 			}
-			else ++frame_no; // ƒtƒŒ[ƒ€”‰ÁZ
+			else ++frame_no; // ãƒ•ãƒ¬ãƒ¼ãƒ æ•°åŠ ç®—
 
-			// ‰f‘œƒtƒŒ[ƒ€‚Ìc‰¡‚Ì‰ğ‘œ“x‚ğæ“¾
+			// æ˜ åƒãƒ•ãƒ¬ãƒ¼ãƒ ã®ç¸¦æ¨ªã®è§£åƒåº¦ã‚’å–å¾—
 			m_frame_xres = video_frame.xres;
 			m_frame_yres = video_frame.yres;
 			m_frame_xy = m_frame_xres * m_frame_yres;
 
-			// 1‰ñ–Ú‚Ì‚İˆ—‚ğs‚¤
+			// 1å›ç›®ã®ã¿å‡¦ç†ã‚’è¡Œã†
 			if (!isInitialized)
 			{
-				m_rcvframe = cv::Mat::zeros(cv::Size(m_frame_xres, m_frame_yres), CV_8UC4); // ‰Šú‰»
-				isInitialized = true; // ‰Šú‰»Š®—¹
+				m_rcvframe = cv::Mat::zeros(cv::Size(m_frame_xres, m_frame_yres), CV_8UC4); // åˆæœŸåŒ–
+				isInitialized = true; // åˆæœŸåŒ–å®Œäº†
 			}
 
-			memcpy(m_rcvframe.data, video_frame.p_data, m_frame_xy * 4); // NDIƒtƒŒ[ƒ€ƒf[ƒ^‚ğOpenCV‚ÌƒtƒŒ[ƒ€‚ÉƒRƒs[
+			memcpy(m_rcvframe.data, video_frame.p_data, m_frame_xy * 4); // NDIãƒ•ãƒ¬ãƒ¼ãƒ ãƒ‡ãƒ¼ã‚¿ã‚’OpenCVã®ãƒ•ãƒ¬ãƒ¼ãƒ ã«ã‚³ãƒ”ãƒ¼
 
 			if (!m_isHighest)
 			{
-				// ‰æ–Ê‚ÌƒŠƒTƒCƒY
-				resize(m_rcvframe, m_rcvframe, cv::Size(), 1, 2); // ’á‰ğ‘œ“xŒü‚¯
+				// ç”»é¢ã®ãƒªã‚µã‚¤ã‚º
+				resize(m_rcvframe, m_rcvframe, cv::Size(), 1, 2); // ä½è§£åƒåº¦å‘ã‘
 			}
 			
-			imshow(m_str_resname, m_rcvframe); // ƒtƒŒ[ƒ€‚Ì•\¦
+			imshow(m_str_resname, m_rcvframe); // ãƒ•ãƒ¬ãƒ¼ãƒ ã®è¡¨ç¤º
 
-			// ƒL[“ü—Í‚ğ‘Ò‚Â
+			// ã‚­ãƒ¼å…¥åŠ›ã‚’å¾…ã¤
 			switch (cv::waitKey(1))
 			{
-			case 3: // imshow’†‚ÉCtrl+c‚ª“ü—Í‚³‚ê‚½‚çI—¹
-			case 227: // windows‚¾‚ÆCtrl+c‚Í3ALinux‚¾‚ÆCtrl+c‚ª³‚µ‚­”F¯‚Å‚«‚È‚¢B227‚ª•Ô‚é
+			case 3: // imshowä¸­ã«Ctrl+cãŒå…¥åŠ›ã•ã‚ŒãŸã‚‰çµ‚äº†
+			case 227: // windowsã ã¨Ctrl+cã¯3ã€Linuxã ã¨Ctrl+cãŒæ­£ã—ãèªè­˜ã§ããªã„ã€‚227ãŒè¿”ã‚‹
 				m_exit_rec_loop = true;
 				cv::destroyWindow(m_str_resname);
 				break;
-			case 49: // RGBƒ‚[ƒh
+			case 49: // RGBãƒ¢ãƒ¼ãƒ‰
 				if (m_is_realsense)
 				{
 					printf("RGB mode\n");
 					camera_mode.p_data = "<RGB_mode enabled=\"true\"/>";
-					NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // ƒƒ^ƒf[ƒ^‘—M
+					NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿é€ä¿¡
 				}
 				break;
-			case 50: // Depthƒ‚[ƒh
+			case 50: // Depthãƒ¢ãƒ¼ãƒ‰
 				if (m_is_realsense)
 				{
 					printf("Depth mode\n");
 					camera_mode.p_data = "<Depth_mode enabled=\"true\"/>";
-					NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // ƒƒ^ƒf[ƒ^‘—M
+					NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿é€ä¿¡
 				}
 				break;
-			case 51: // IR1ƒ‚[ƒh
+			case 51: // IR1ãƒ¢ãƒ¼ãƒ‰
 				if (m_is_realsense)
 				{
 					printf("IR LEFT mode\n");
 					camera_mode.p_data = "<IR_left_mode enabled=\"true\"/>";
-					NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // ƒƒ^ƒf[ƒ^‘—M
+					NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿é€ä¿¡
 				}
 				break;
-			case 52: // IR2ƒ‚[ƒh
+			case 52: // IR2ãƒ¢ãƒ¼ãƒ‰
 				if (m_is_realsense)
 				{
 					printf("IR RIGHT mode\n");
 					camera_mode.p_data = "<IR_right_mode enabled=\"true\"/>";
-					NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // ƒƒ^ƒf[ƒ^‘—M
+					NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿é€ä¿¡
 				}
 				break;
 			default:
@@ -188,40 +188,40 @@ void NdiCom::recVideo()
 			}
 			
 		
-			NDIlib_recv_free_video_v2(m_pNDI_recv, &video_frame);// ‰f‘œóM—pƒIƒuƒWƒFƒNƒg‚Ì”jŠü
+			NDIlib_recv_free_video_v2(m_pNDI_recv, &video_frame);// æ˜ åƒå—ä¿¡ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç ´æ£„
 		}
 	}
 	m_isRecv = false;
 }
 
-/* óM—pThreadì¬ */
+/* å—ä¿¡ç”¨Threadä½œæˆ */
 void NdiCom::creatRecVideoThread()
 {
-	m_receive_thread = thread(&NdiCom::recVideo, this); // óMThreadŠJn
+	m_receive_thread = thread(&NdiCom::recVideo, this); // å—ä¿¡Threadé–‹å§‹
 }
 
-/* óM—pThread‰ğ•ú */
+/* å—ä¿¡ç”¨Threadè§£æ”¾ */
 void NdiCom::DeleteRecVideoThread()
 {
-	for (;;)// –³ŒÀƒ‹[ƒv
+	for (;;)// ç„¡é™ãƒ«ãƒ¼ãƒ—
 	{
 		if(!m_exit_rec_loop)
 		{
-			m_exit_rec_loop = true; // óMƒ‹[ƒvI—¹ƒtƒ‰ƒOƒIƒ“
+			m_exit_rec_loop = true; // å—ä¿¡ãƒ«ãƒ¼ãƒ—çµ‚äº†ãƒ•ãƒ©ã‚°ã‚ªãƒ³
 		}
 
 		// Sleep
 		chrono::milliseconds dura(100);
 		this_thread::sleep_for(dura);
 
-		// óMˆ—I—¹‚Ü‚Å‘Ò‹@
+		// å—ä¿¡å‡¦ç†çµ‚äº†ã¾ã§å¾…æ©Ÿ
 		if (!GetIsRecFlg())
 		{
-			// Thread‚Ìjoin‰Â”\‚©”»’è
+			// Threadã®joinå¯èƒ½ã‹åˆ¤å®š
 			if (m_receive_thread.joinable())
 			{
-				m_receive_thread.join(); // ƒXƒŒƒbƒh‚ğjoin‚·‚é‚Ü‚Å‘Ò‹@
-				break; // forƒ‹[ƒv”²‚¯‚é
+				m_receive_thread.join(); // ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’joinã™ã‚‹ã¾ã§å¾…æ©Ÿ
+				break; // forãƒ«ãƒ¼ãƒ—æŠœã‘ã‚‹
 			}
 		}
 	}

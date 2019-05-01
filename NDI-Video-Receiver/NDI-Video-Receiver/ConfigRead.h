@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <fstream>
 #include <sstream>
-/* linux“®ì—pƒwƒbƒ_ */
+/* linuxå‹•ä½œç”¨ãƒ˜ãƒƒãƒ€ */
 #ifdef __linux__
 
 #endif // __linux__
-/* Windows“®ì—pƒwƒbƒ_ */
+/* Windowså‹•ä½œç”¨ãƒ˜ãƒƒãƒ€ */
 #ifdef _WIN32
 
 #endif // _WIN32
@@ -21,9 +21,9 @@ public:
 	std::string GetStringProperty(std::string op_name);
 
 private:
-	std::string m_defvalue; // ƒfƒtƒHƒ‹ƒg’lŠi”[—p
+	std::string m_defvalue; // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤æ ¼ç´ç”¨
 	int m_int_defvalue;
-	// İ’è€–Ú”Ô†Ši”[—p
+	// è¨­å®šé …ç›®ç•ªå·æ ¼ç´ç”¨
 	std::string getDefaultValue();
 	void setDefaltValue(std::string op_name);
 	std::string getProperty(std::string conf_data, std::string op_name);

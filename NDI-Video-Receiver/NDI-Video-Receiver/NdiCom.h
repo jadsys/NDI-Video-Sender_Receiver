@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <malloc.h>
 #include <time.h>
 #include <iostream>
@@ -12,7 +12,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <Processing.NDI.Lib.h>
 
-/* linux“®ì—pƒwƒbƒ_ */
+/* linuxå‹•ä½œç”¨ãƒ˜ãƒƒãƒ€ */
 #ifdef __linux__
 #include <csignal>
 #include <cstddef>
@@ -23,7 +23,7 @@
 #include <sys/time.h>
 #endif // __linux__
 
-/* Windows“®ì—pƒwƒbƒ_ */
+/* Windowså‹•ä½œç”¨ãƒ˜ãƒƒãƒ€ */
 #ifdef _WIN32
 #include <signal.h>
 #endif
@@ -44,17 +44,17 @@ public:
 	void DeleteRecVideoThread();
 
 private:
-	int m_frame_xres, m_frame_yres, m_frame_xy; // óMƒtƒŒ[ƒ€‚Ì‰ğ‘œ“xŠi”[—p
-	const int m_channel_no; // ƒ`ƒƒƒ“ƒlƒ‹”Ši”[—p
-	bool m_exit_rec_loop; // óMƒ‹[ƒvI—¹ƒtƒ‰ƒO
-	bool m_isRecv; // óMƒtƒ‰ƒO
-	bool m_isHighest; // ‚‰ğ‘œ“xƒtƒ‰ƒO
-	bool m_is_realsense; // RealSenseƒJƒƒ‰ƒtƒ‰ƒO
-	std::string m_str_resname; // ƒŠƒ\[ƒX–¼Ši”[—p
-	std::thread m_receive_thread; // óMThread—p•Ï”
-	NDIlib_recv_instance_t m_pNDI_recv; // óM—pƒCƒ“ƒXƒ^ƒ“ƒX
-	NDIlib_metadata_frame_t camera_mode;//RealSenseƒJƒƒ‰‚Ì“®ìƒ‚[ƒhØ‚è‘Ö‚¦
-	cv::Mat m_rcvframe; // óM—pƒtƒŒ[ƒ€
+	int m_frame_xres, m_frame_yres, m_frame_xy; // å—ä¿¡ãƒ•ãƒ¬ãƒ¼ãƒ ã®è§£åƒåº¦æ ¼ç´ç”¨
+	const int m_channel_no; // ãƒãƒ£ãƒ³ãƒãƒ«æ•°æ ¼ç´ç”¨
+	bool m_exit_rec_loop; // å—ä¿¡ãƒ«ãƒ¼ãƒ—çµ‚äº†ãƒ•ãƒ©ã‚°
+	bool m_isRecv; // å—ä¿¡ãƒ•ãƒ©ã‚°
+	bool m_isHighest; // é«˜è§£åƒåº¦ãƒ•ãƒ©ã‚°
+	bool m_is_realsense; // RealSenseã‚«ãƒ¡ãƒ©ãƒ•ãƒ©ã‚°
+	std::string m_str_resname; // ãƒªã‚½ãƒ¼ã‚¹åæ ¼ç´ç”¨
+	std::thread m_receive_thread; // å—ä¿¡Threadç”¨å¤‰æ•°
+	NDIlib_recv_instance_t m_pNDI_recv; // å—ä¿¡ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	NDIlib_metadata_frame_t camera_mode;//RealSenseã‚«ãƒ¡ãƒ©ã®å‹•ä½œãƒ¢ãƒ¼ãƒ‰åˆ‡ã‚Šæ›¿ãˆ
+	cv::Mat m_rcvframe; // å—ä¿¡ç”¨ãƒ•ãƒ¬ãƒ¼ãƒ 
 
 	void recVideo();
 };
