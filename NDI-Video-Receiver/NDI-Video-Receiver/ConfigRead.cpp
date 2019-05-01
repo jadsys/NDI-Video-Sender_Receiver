@@ -73,7 +73,7 @@ string ConfigRead::readConfigFile(string op_name)
 	// 読み込みチェック
 	if (!iconfig_stream)
 	{
-		printf("ファイル名が%sと一致しているか確認して下さい。\n", CONFIG_FILE_NAME);
+        std::cout << "ファイル名が" << CONFIG_FILE_NAME << "と一致しているか確認して下さい。" << endl;
 		return (getDefaultValue()); // 読み込み失敗時defaultを読み込む
 	}
 	else

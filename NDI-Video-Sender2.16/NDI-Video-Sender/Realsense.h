@@ -8,32 +8,32 @@
 #define IR_RIGHT_CAMERA_VIDEOS 3
 
 class Realsense :
-	public NdiCom
+    public NdiCom
 {
 public:
-	Realsense();
-	Realsense(int argv_no);
-	~Realsense();
-	void initializeSensor();
-	void sndVideo() override;
-	void CretateSndVideoThread() override;
+    Realsense();
+    Realsense(int argv_no);
+    ~Realsense();
+    void initializeSensor();
+    void sndVideo() override;
+    void CretateSndVideoThread() override;
 
 private:
-	// RGBカメラ設定値
-	uint32_t m_color_width; // 横方向解像度の格納用
-	uint32_t m_color_height; // 縦方向解像度の格納用
-	uint32_t m_color_fps; // フレームレートの格納用
+    // RGBカメラ設定値
+    uint32_t m_color_width; // 横方向解像度の格納用
+    uint32_t m_color_height; // 縦方向解像度の格納用
+    uint32_t m_color_fps; // フレームレートの格納用
 
-	// デプスカメラ設定値
-	uint32_t m_depth_width; // 横方向解像度の格納用
-	uint32_t m_depth_height; // 縦方向解像度の格納用
-	uint32_t m_depth_fps; // フレームレートの格納用
+    // デプスカメラ設定値
+    uint32_t m_depth_width; // 横方向解像度の格納用
+    uint32_t m_depth_height; // 縦方向解像度の格納用
+    uint32_t m_depth_fps; // フレームレートの格納用
 
-	// IRカメラ設定値
-	uint32_t m_IR_width; // 横方向解像度の格納用
-	uint32_t m_IR_height; // 縦方向解像度の格納用
-	uint32_t m_IR_fps; // フレームレートの格納用
-	
-	rs2::pipeline m_pipeline; // パイプライン
+    // IRカメラ設定値
+    uint32_t m_IR_width; // 横方向解像度の格納用
+    uint32_t m_IR_height; // 縦方向解像度の格納用
+    uint32_t m_IR_fps; // フレームレートの格納用
+
+    rs2::pipeline m_pipeline; // パイプライン
 };
 
