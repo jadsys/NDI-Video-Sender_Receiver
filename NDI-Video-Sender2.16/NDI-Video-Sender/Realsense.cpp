@@ -1,110 +1,110 @@
-#include "Realsense.h"
+ï»¿#include "Realsense.h"
 
 
 using namespace std;
 
 /****************************************************************************
 *
-*@ƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^
+*ã€€ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ»ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 *
 *****************************************************************************/
-/* ƒRƒ“ƒXƒgƒ‰ƒNƒ^ */
+/* ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ */
 Realsense::Realsense()
 {
-	// ˆ—‚È‚µ
+	// å‡¦ç†ãªã—
 }
 
-/* ƒRƒ“ƒXƒgƒ‰ƒNƒ^ */
+/* ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ */
 Realsense::Realsense(int argv_no) : NdiCom::NdiCom(argv_no)
 {
-	// ƒJƒƒ‰‰Šú‰»
+	// ã‚«ãƒ¡ãƒ©åˆæœŸåŒ–
 	initializeSensor();
 }
 
-/* ƒfƒXƒgƒ‰ƒNƒ^ */
+/* ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ */
 Realsense::~Realsense()
 {
-	// ˆ—‚È‚µ
+	// å‡¦ç†ãªã—
 }
 
-/* ‰Šú‰» */
+/* åˆæœŸåŒ– */
 void Realsense::initializeSensor()
 {
-	// RGBƒJƒƒ‰‰Šú’l
-	m_color_width = m_xres; // ‰¡•ûŒü‰ğ‘œ“x‚Ìw’è
-	m_color_height = m_yres; // c•ûŒü‰ğ‘œ“x‚Ìw’è
-	m_color_fps = m_sndfps; // ƒtƒŒ[ƒ€ƒŒ[ƒg‚Ìw’è
+	// RGBã‚«ãƒ¡ãƒ©åˆæœŸå€¤
+	m_color_width = m_xres; // æ¨ªæ–¹å‘è§£åƒåº¦ã®æŒ‡å®š
+	m_color_height = m_yres; // ç¸¦æ–¹å‘è§£åƒåº¦ã®æŒ‡å®š
+	m_color_fps = m_sndfps; // ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆã®æŒ‡å®š
 
-	// DepthƒJƒƒ‰‰Šú’l
-	m_depth_width = m_xres; // ‰¡•ûŒü‰ğ‘œ“x‚Ìw’è
-	m_depth_height = m_yres; // c•ûŒü‰ğ‘œ“x‚Ìw’è
-	m_depth_fps = m_sndfps; // ƒtƒŒ[ƒ€ƒŒ[ƒg‚Ìw’è
+	// Depthã‚«ãƒ¡ãƒ©åˆæœŸå€¤
+	m_depth_width = m_xres; // æ¨ªæ–¹å‘è§£åƒåº¦ã®æŒ‡å®š
+	m_depth_height = m_yres; // ç¸¦æ–¹å‘è§£åƒåº¦ã®æŒ‡å®š
+	m_depth_fps = m_sndfps; // ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆã®æŒ‡å®š
 
-	// IRƒJƒƒ‰İ’è’l
-	m_IR_width = m_xres; // ‰¡•ûŒü‰ğ‘œ“x‚Ìw’è
-	m_IR_height = m_yres; // c•ûŒü‰ğ‘œ“x‚Ìw’è
-	m_IR_fps = m_sndfps; // ƒtƒŒ[ƒ€ƒŒ[ƒg‚Ìw’è
+	// IRã‚«ãƒ¡ãƒ©è¨­å®šå€¤
+	m_IR_width = m_xres; // æ¨ªæ–¹å‘è§£åƒåº¦ã®æŒ‡å®š
+	m_IR_height = m_yres; // ç¸¦æ–¹å‘è§£åƒåº¦ã®æŒ‡å®š
+	m_IR_fps = m_sndfps; // ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆã®æŒ‡å®š
 
-	rs2::config config; // RealSenseƒJƒƒ‰‚Ìİ’è—p
-	rs2::pipeline_profile pipeline_profile; // ƒpƒCƒvƒ‰ƒCƒ“‚Ì’†gQÆ—p
+	rs2::config config; // RealSenseã‚«ãƒ¡ãƒ©ã®è¨­å®šç”¨
+	rs2::pipeline_profile pipeline_profile; // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®ä¸­èº«å‚ç…§ç”¨
 
-	// ƒRƒ“ƒtƒBƒO‚Ì’†gİ’è
-	config.enable_device(NdiCom::m_other_camera); // ƒfƒoƒCƒX‚ÌƒVƒŠƒAƒ‹w’è
-	config.enable_stream(rs2_stream::RS2_STREAM_COLOR, m_xres, m_yres, rs2_format::RS2_FORMAT_BGR8, m_color_fps); // RGBƒJƒƒ‰—LŒø‰»
-	config.enable_stream(rs2_stream::RS2_STREAM_DEPTH, m_xres, m_yres, rs2_format::RS2_FORMAT_Z16, m_depth_fps); // DepthƒJƒƒ‰—LŒø‰»
-	config.enable_stream(rs2_stream::RS2_STREAM_INFRARED, 1, m_IR_width, m_IR_height, rs2_format::RS2_FORMAT_Y8, m_IR_fps); // IRƒJƒƒ‰—LŒø‰»
-	config.enable_stream(rs2_stream::RS2_STREAM_INFRARED, 2, m_IR_width, m_IR_height, rs2_format::RS2_FORMAT_Y8, m_IR_fps); // IRƒJƒƒ‰—LŒø‰»
+	// ã‚³ãƒ³ãƒ•ã‚£ã‚°ã®ä¸­èº«è¨­å®š
+	config.enable_device(NdiCom::m_other_camera); // ãƒ‡ãƒã‚¤ã‚¹ã®ã‚·ãƒªã‚¢ãƒ«æŒ‡å®š
+	config.enable_stream(rs2_stream::RS2_STREAM_COLOR, m_xres, m_yres, rs2_format::RS2_FORMAT_BGR8, m_color_fps); // RGBã‚«ãƒ¡ãƒ©æœ‰åŠ¹åŒ–
+	config.enable_stream(rs2_stream::RS2_STREAM_DEPTH, m_xres, m_yres, rs2_format::RS2_FORMAT_Z16, m_depth_fps); // Depthã‚«ãƒ¡ãƒ©æœ‰åŠ¹åŒ–
+	config.enable_stream(rs2_stream::RS2_STREAM_INFRARED, 1, m_IR_width, m_IR_height, rs2_format::RS2_FORMAT_Y8, m_IR_fps); // IRã‚«ãƒ¡ãƒ©æœ‰åŠ¹åŒ–
+	config.enable_stream(rs2_stream::RS2_STREAM_INFRARED, 2, m_IR_width, m_IR_height, rs2_format::RS2_FORMAT_Y8, m_IR_fps); // IRã‚«ãƒ¡ãƒ©æœ‰åŠ¹åŒ–
 
 
-	// ƒpƒCƒvƒ‰ƒCƒ“ƒXƒ^[ƒg
+	// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ã‚¿ãƒ¼ãƒˆ
 	pipeline_profile = m_pipeline.start(config);
 }
 
 /****************************************************************************
 *
-*@‘—Mˆ—
+*ã€€é€ä¿¡å‡¦ç†
 *
 *****************************************************************************/
 void Realsense::sndVideo() 
 {
-	// ƒ[ƒJƒ‹•Ï”
-	rs2::frame color_frame; // RGB‰f‘œ—pƒtƒŒ[ƒ€
-	rs2::frame depth_frame; // Depth‰f‘œ—pƒtƒŒ[ƒ€
-	rs2::frame ir1_frame; // IR‰f‘œ—pƒtƒŒ[ƒ€
-	rs2::frame ir2_frame; // IR‰f‘œ—pƒtƒŒ[ƒ€
-	cv::Mat myframe, sndframe; // OpenCV—pƒtƒŒ[ƒ€
-	cv::Point point(30, 30); // ƒ^ƒCƒ€ƒXƒ^ƒ“ƒvˆÊ’u
-	string strTimecode; // ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv—pŠi”[—p•Ï”
-	rs2::frameset frameset; // ƒtƒŒ[ƒ€ƒZƒbƒg
-	rs2::colorizer color_map; // ƒJƒ‰[‰»ƒc[ƒ‹
-	int camera_mode = RGB_CAMERA_VIDEOS; // RGBƒJƒƒ‰‚©
-	int cv_color; // “ü—Í‚µ‚½ƒL[‚Ì”Ô†‚ğŠi”[‚·‚é‚½‚ß‚Ì•Ï”
-	NDIlib_metadata_frame_t metadata_desc; // ƒƒ^óM—pƒtƒŒ[ƒ€
+	// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°
+	rs2::frame color_frame; // RGBæ˜ åƒç”¨ãƒ•ãƒ¬ãƒ¼ãƒ 
+	rs2::frame depth_frame; // Depthæ˜ åƒç”¨ãƒ•ãƒ¬ãƒ¼ãƒ 
+	rs2::frame ir1_frame; // IRæ˜ åƒç”¨ãƒ•ãƒ¬ãƒ¼ãƒ 
+	rs2::frame ir2_frame; // IRæ˜ åƒç”¨ãƒ•ãƒ¬ãƒ¼ãƒ 
+	cv::Mat myframe, sndframe; // OpenCVç”¨ãƒ•ãƒ¬ãƒ¼ãƒ 
+	cv::Point point(30, 30); // ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ä½ç½®
+	string strTimecode; // ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ç”¨æ™‚åˆ»æ ¼ç´ç”¨å¤‰æ•°
+	rs2::frameset frameset; // ãƒ•ãƒ¬ãƒ¼ãƒ ã‚»ãƒƒãƒˆ
+	rs2::colorizer color_map; // ã‚«ãƒ©ãƒ¼åŒ–ãƒ„ãƒ¼ãƒ«
+	int camera_mode = RGB_CAMERA_VIDEOS; // RGBã‚«ãƒ¡ãƒ©ã‹
+	int cv_color; // å…¥åŠ›ã—ãŸã‚­ãƒ¼ã®ç•ªå·ã‚’æ ¼ç´ã™ã‚‹ãŸã‚ã®å¤‰æ•°
+	NDIlib_metadata_frame_t metadata_desc; // ãƒ¡ã‚¿å—ä¿¡ç”¨ãƒ•ãƒ¬ãƒ¼ãƒ 
 
-	// ‘—M—pƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+	// é€ä¿¡ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
 	sendCreate();
 
-	// ‰f‘œ—pƒtƒŒ[ƒ€‚Ì¶¬‚Æ‰Šú‰»
-	NDIlib_video_frame_v2_t video_frame; // ‰f‘œƒtƒŒ[ƒ€‚ÌéŒ¾
-	video_frame.xres = m_xres; // ‰¡•ûŒü‰ğ‘œ“x‚Ìw’è
-	video_frame.yres = m_yres; // c•ûŒü‰ğ‘œ“x‚Ìw’è
-	video_frame.FourCC = NDIlib_FourCC_type_BGRA; // m_sndNDIColorw’èæBƒtƒŒ[ƒ€‚ÌƒJƒ‰[ƒtƒH[ƒ}ƒbƒgw’è
+	// æ˜ åƒç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç”Ÿæˆã¨åˆæœŸåŒ–
+	NDIlib_video_frame_v2_t video_frame; // æ˜ åƒãƒ•ãƒ¬ãƒ¼ãƒ ã®å®£è¨€
+	video_frame.xres = m_xres; // æ¨ªæ–¹å‘è§£åƒåº¦ã®æŒ‡å®š
+	video_frame.yres = m_yres; // ç¸¦æ–¹å‘è§£åƒåº¦ã®æŒ‡å®š
+	video_frame.FourCC = NDIlib_FourCC_type_BGRA; // m_sndNDIColoræŒ‡å®šå…ˆã€‚ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚«ãƒ©ãƒ¼ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæŒ‡å®š
 	video_frame.frame_format_type = NDIlib_frame_format_type_interleaved;
-	video_frame.p_data = (uint8_t*)malloc(m_xres * m_yres * 4); // ƒf[ƒ^ƒTƒCƒY‚Ìw’è
+	video_frame.p_data = (uint8_t*)malloc(m_xres * m_yres * 4); // ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºã®æŒ‡å®š
 	video_frame.line_stride_in_bytes = m_xres * 4;
 
 	// Send Start!
 	printf("%s SENDING...\n", m_resources_id.c_str());
 	m_exit_snd_loop = false;
 
-	// ‘—Mˆ—
+	// é€ä¿¡å‡¦ç†
 	while (!m_exit_snd_loop)
 	{
 		if (NDIlib_send_capture(m_pNDI_send, &metadata_desc, 0))
 		{	
-			string camera_change = metadata_desc.p_data; // ƒƒ^ƒf[ƒ^‚Ì–{‘Ì‚ğstringŒ^‚Ì•Ï”‚ÉŠi”[
+			string camera_change = metadata_desc.p_data; // ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®æœ¬ä½“ã‚’stringå‹ã®å¤‰æ•°ã«æ ¼ç´
 			
-			// ƒJƒƒ‰ƒ‚[ƒh‚Ìƒ`ƒFƒ“ƒW
+			// ã‚«ãƒ¡ãƒ©ãƒ¢ãƒ¼ãƒ‰ã®ãƒã‚§ãƒ³ã‚¸
 			if (camera_change.find("<RGB_mode enabled=\"true\"/>") != -1)
 			{
 				camera_mode = RGB_CAMERA_VIDEOS;
@@ -126,133 +126,133 @@ void Realsense::sndVideo()
 				printf("IR right mode enabled\n");
 			}
 
-			// ‚±‚±‚Åƒf[ƒ^‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚è‚Ü‚·
+			// ã“ã“ã§ãƒ‡ãƒ¼ã‚¿ã‚’è§£æ”¾ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™
 			NDIlib_send_free_metadata(m_pNDI_send, &metadata_desc);
 		}
-		// ƒJƒƒ‰‚©‚ç“Ç‚İ‚İˆ—
-		frameset = m_pipeline.wait_for_frames(); // ƒtƒŒ[ƒ€‚ÌXV
+		// ã‚«ãƒ¡ãƒ©ã‹ã‚‰èª­ã¿è¾¼ã¿å‡¦ç†
+		frameset = m_pipeline.wait_for_frames(); // ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°
 
-		// ƒJƒƒ‰‚Ì“®ìƒ‚[ƒhØ‘Ö
+		// ã‚«ãƒ¡ãƒ©ã®å‹•ä½œãƒ¢ãƒ¼ãƒ‰åˆ‡æ›¿
 		switch (camera_mode)
 		{
 		case RGB_CAMERA_VIDEOS:
-			// RGBƒtƒŒ[ƒ€æ“¾
+			// RGBãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—
 			color_frame = frameset.get_color_frame();
 
-			// ƒtƒŒ[ƒ€ƒTƒCƒY‚ÌXV
+			// ãƒ•ãƒ¬ãƒ¼ãƒ ã‚µã‚¤ã‚ºã®æ›´æ–°
 			m_color_width = color_frame.as<rs2::video_frame>().get_width();
 			m_color_height = color_frame.as<rs2::video_frame>().get_height();
 
-			// OpenCV—pƒtƒŒ[ƒ€‚ÉŠi”[
+			// OpenCVç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ã«æ ¼ç´
 			myframe = cv::Mat(m_color_height, m_color_width, CV_8UC3, const_cast<void *>(color_frame.get_data()));
 
-			// •ÏŠ·‚ÌF‚ğ•ÏX
+			// å¤‰æ›ã®è‰²ã‚’å¤‰æ›´
 			cv_color = CV_BGR2BGRA;
 
 			break;
 
 		case DEPTH_CAMERA_VIDEOS:
-			// DepthƒtƒŒ[ƒ€æ“¾(F•t‚¯)
+			// Depthãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—(è‰²ä»˜ã‘)
 			depth_frame = frameset.get_depth_frame();
 			depth_frame = depth_frame.apply_filter(color_map);
 
-			// ƒtƒŒ[ƒ€ƒTƒCƒY‚ÌXV
+			// ãƒ•ãƒ¬ãƒ¼ãƒ ã‚µã‚¤ã‚ºã®æ›´æ–°
 			m_depth_width = depth_frame.as<rs2::video_frame>().get_width();
 			m_depth_height = depth_frame.as<rs2::video_frame>().get_height();
 
-			// OpenCV—pƒtƒŒ[ƒ€‚ÉŠi”[
+			// OpenCVç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ã«æ ¼ç´
 			myframe = cv::Mat(m_depth_height, m_depth_width, CV_8UC3, const_cast<void*>(depth_frame.get_data()));
 
-			// •ÏŠ·‚ÌF‚ğ•ÏX
+			// å¤‰æ›ã®è‰²ã‚’å¤‰æ›´
 			cv_color = CV_BGR2BGRA;
 			
 			break;
 
 		case IR_LEFT_CAMERA_VIDEOS:
-			// IRƒtƒŒ[ƒ€æ“¾(F•t‚¯)
+			// IRãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—(è‰²ä»˜ã‘)
 			ir1_frame = frameset.get_infrared_frame(1);
 
-			// ƒtƒŒ[ƒ€ƒTƒCƒY‚ÌXV
+			// ãƒ•ãƒ¬ãƒ¼ãƒ ã‚µã‚¤ã‚ºã®æ›´æ–°
 			m_IR_width = ir1_frame.as<rs2::video_frame>().get_width();
 			m_IR_height = ir1_frame.as<rs2::video_frame>().get_height();
 
-			// OpenCV—pƒtƒŒ[ƒ€‚ÉŠi”[
+			// OpenCVç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ã«æ ¼ç´
 			myframe = cv::Mat(m_IR_height, m_IR_width, CV_8UC1, const_cast<void*>(ir1_frame.get_data()));
 
-			// •ÏŠ·‚ÌF‚ğ•ÏX
+			// å¤‰æ›ã®è‰²ã‚’å¤‰æ›´
 			cv_color = CV_GRAY2BGRA;
 			
 			break;
 
 		case IR_RIGHT_CAMERA_VIDEOS:
-			// IRƒtƒŒ[ƒ€æ“¾(F•t‚¯)
+			// IRãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—(è‰²ä»˜ã‘)
 			ir2_frame = frameset.get_infrared_frame(2);
 
-			// ƒtƒŒ[ƒ€ƒTƒCƒY‚ÌXV
+			// ãƒ•ãƒ¬ãƒ¼ãƒ ã‚µã‚¤ã‚ºã®æ›´æ–°
 			m_IR_width = ir2_frame.as<rs2::video_frame>().get_width();
 			m_IR_height = ir2_frame.as<rs2::video_frame>().get_height();
 
-			// OpenCV—pƒtƒŒ[ƒ€‚ÉŠi”[
+			// OpenCVç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ã«æ ¼ç´
 			myframe = cv::Mat(m_IR_height, m_IR_width, CV_8UC1, const_cast<void*>(ir2_frame.get_data()));
 
-			// •ÏŠ·‚ÌF‚ğ•ÏX
+			// å¤‰æ›ã®è‰²ã‚’å¤‰æ›´
 			cv_color = CV_GRAY2BGRA;
 			
 			break;
 		}
 
-		// “Ç‚İ‚ñ‚¾ƒtƒŒ[ƒ€‚ª‹ó‚©
+		// èª­ã¿è¾¼ã‚“ã ãƒ•ãƒ¬ãƒ¼ãƒ ãŒç©ºã‹
 		if (myframe.empty())
 		{
 			continue;
 		}
 
-		// ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‘}“ü‚·‚é‚©
+		// ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—æŒ¿å…¥ã™ã‚‹ã‹
 		if (m_sndtmcode_flg)
 		{
-			// ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‘}“ü
+			// ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—æŒ¿å…¥
 			strTimecode = getCurrentTime();
 
 			cv::putText(
-				myframe,  // ‰æ‘œ
-				strTimecode, // •¶š—ñ
-				point, // À•W
-				cv::FONT_HERSHEY_SIMPLEX, // ƒtƒHƒ“ƒg‚Ìí—Ş
-				0.8, // •¶š‚Ì‘å‚«‚³
-				cv::Scalar(255, 255, 255), // •¶š‚ÌF
-				3 // ü‚Ì‘¾‚³
+				myframe,  // ç”»åƒ
+				strTimecode, // æ–‡å­—åˆ—
+				point, // åº§æ¨™
+				cv::FONT_HERSHEY_SIMPLEX, // ãƒ•ã‚©ãƒ³ãƒˆã®ç¨®é¡
+				0.8, // æ–‡å­—ã®å¤§ãã•
+				cv::Scalar(255, 255, 255), // æ–‡å­—ã®è‰²
+				3 // ç·šã®å¤ªã•
 			);
 
-			cv::putText( // ƒCƒ“ƒ‰ƒCƒ“ƒtƒHƒ“ƒg
-				myframe, // ‰æ‘œ
-				strTimecode, // •¶š—ñ
-				point, // À•W
-				cv::FONT_HERSHEY_SIMPLEX, // ƒtƒHƒ“ƒg‚Ìí—Ş
-				0.8, // •¶š‚Ì‘å‚«‚³
-				cv::Scalar(0, 0, 0), // •¶š‚ÌF
-				1, // ü‚Ì‘¾‚³
-				CV_AA // ƒAƒ“ƒ`ƒGƒCƒŠƒAƒX
+			cv::putText( // ã‚¤ãƒ³ãƒ©ã‚¤ãƒ³ãƒ•ã‚©ãƒ³ãƒˆ
+				myframe, // ç”»åƒ
+				strTimecode, // æ–‡å­—åˆ—
+				point, // åº§æ¨™
+				cv::FONT_HERSHEY_SIMPLEX, // ãƒ•ã‚©ãƒ³ãƒˆã®ç¨®é¡
+				0.8, // æ–‡å­—ã®å¤§ãã•
+				cv::Scalar(0, 0, 0), // æ–‡å­—ã®è‰²
+				1, // ç·šã®å¤ªã•
+				CV_AA // ã‚¢ãƒ³ãƒã‚¨ã‚¤ãƒªã‚¢ã‚¹
 			);
 		}
 
 		
-		cv::cvtColor(myframe, sndframe, cv_color); // m_sndCVColor‚Ìw’èæBF‚Ì•ÏŠ·(NDI‘—M—pƒtƒŒ[ƒ€‚Éæ‚¹‚é‚É‚ÍBGRX‚É•ÏŠ·‚·‚é•K—v‚ª‚ ‚é)
+		cv::cvtColor(myframe, sndframe, cv_color); // m_sndCVColorã®æŒ‡å®šå…ˆã€‚è‰²ã®å¤‰æ›(NDIé€ä¿¡ç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ã«ä¹—ã›ã‚‹ã«ã¯BGRXã«å¤‰æ›ã™ã‚‹å¿…è¦ãŒã‚ã‚‹)
 
 		
-		memcpy((void*)video_frame.p_data, sndframe.data, (m_xres * m_yres * 4)); // OpenCV‚ÌƒtƒŒ[ƒ€‚ğNDIƒtƒŒ[ƒ€ƒf[ƒ^‚ÉƒRƒs[
+		memcpy((void*)video_frame.p_data, sndframe.data, (m_xres * m_yres * 4)); // OpenCVã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’NDIãƒ•ãƒ¬ãƒ¼ãƒ ãƒ‡ãƒ¼ã‚¿ã«ã‚³ãƒ”ãƒ¼
 
-		// ‘—M
+		// é€ä¿¡
 		NDIlib_send_send_video_v2(m_pNDI_send, &video_frame);
 
 		if (m_preview_flg)
 		{
-			cv::imshow(m_str_resname, myframe); // ‰æ‘œ‚ğ•\¦
+			cv::imshow(m_str_resname, myframe); // ç”»åƒã‚’è¡¨ç¤º
 
-			// ƒL[“ü—Í‚ğ‘Ò‚Â
+			// ã‚­ãƒ¼å…¥åŠ›ã‚’å¾…ã¤
 			switch (cv::waitKey(1))
 			{
-			case 3: // imshow’†‚ÉCtrl+c‚ª“ü—Í‚³‚ê‚½‚çI—¹
-			case 227: // windows‚¾‚ÆCtrl+c‚Í3ALinux‚¾‚ÆCtrl+c‚ª³‚µ‚­”F¯‚Å‚«‚È‚¢B227‚ª•Ô‚é
+			case 3: // imshowä¸­ã«Ctrl+cãŒå…¥åŠ›ã•ã‚ŒãŸã‚‰çµ‚äº†
+			case 227: // windowsã ã¨Ctrl+cã¯3ã€Linuxã ã¨Ctrl+cãŒæ­£ã—ãèªè­˜ã§ããªã„ã€‚227ãŒè¿”ã‚‹
 				m_exit_snd_loop = true;
 				cv::destroyWindow(m_str_resname);
 				break;
@@ -261,20 +261,20 @@ void Realsense::sndVideo()
 			}
 		}
 	}
-	m_pipeline.stop(); // ƒpƒCƒvƒ‰ƒCƒ“ƒXƒgƒbƒv
-	free(video_frame.p_data); // ‰f‘œƒtƒŒ[ƒ€‚Ìƒf[ƒ^—Ìˆæ‚ğ‰ğ•ú
-	NDIlib_send_destroy(m_pNDI_send); // ‘—M—pƒtƒŒ[ƒ€‚ÌŠJ•ú
+	m_pipeline.stop(); // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒˆãƒƒãƒ—
+	free(video_frame.p_data); // æ˜ åƒãƒ•ãƒ¬ãƒ¼ãƒ ã®ãƒ‡ãƒ¼ã‚¿é ˜åŸŸã‚’è§£æ”¾
+	NDIlib_send_destroy(m_pNDI_send); // é€ä¿¡ç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ã®é–‹æ”¾
 	m_isRecflg = false;
 	
 }
 
-/* ‘—MThread‚Ìì¬ */
+/* é€ä¿¡Threadã®ä½œæˆ */
 void Realsense::CretateSndVideoThread() 
 {
 	if (m_use_flg) 
 	{
-		m_isRecflg = true; // ‘—Mƒtƒ‰ƒOƒIƒ“
-		m_thread_video = thread(&Realsense::sndVideo, this); // ‘—MƒXƒŒƒbƒhŠJn
+		m_isRecflg = true; // é€ä¿¡ãƒ•ãƒ©ã‚°ã‚ªãƒ³
+		m_thread_video = thread(&Realsense::sndVideo, this); // é€ä¿¡ã‚¹ãƒ¬ãƒƒãƒ‰é–‹å§‹
 	}
 }
 

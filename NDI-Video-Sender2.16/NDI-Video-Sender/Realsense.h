@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "NdiCom.h"
 #include <librealsense2/rs.hpp>
 
@@ -19,21 +19,21 @@ public:
 	void CretateSndVideoThread() override;
 
 private:
-	// RGBƒJƒƒ‰İ’è’l
-	uint32_t m_color_width; // ‰¡•ûŒü‰ğ‘œ“x‚ÌŠi”[—p
-	uint32_t m_color_height; // c•ûŒü‰ğ‘œ“x‚ÌŠi”[—p
-	uint32_t m_color_fps; // ƒtƒŒ[ƒ€ƒŒ[ƒg‚ÌŠi”[—p
+	// RGBã‚«ãƒ¡ãƒ©è¨­å®šå€¤
+	uint32_t m_color_width; // æ¨ªæ–¹å‘è§£åƒåº¦ã®æ ¼ç´ç”¨
+	uint32_t m_color_height; // ç¸¦æ–¹å‘è§£åƒåº¦ã®æ ¼ç´ç”¨
+	uint32_t m_color_fps; // ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆã®æ ¼ç´ç”¨
 
-	// ƒfƒvƒXƒJƒƒ‰İ’è’l
-	uint32_t m_depth_width; // ‰¡•ûŒü‰ğ‘œ“x‚ÌŠi”[—p
-	uint32_t m_depth_height; // c•ûŒü‰ğ‘œ“x‚ÌŠi”[—p
-	uint32_t m_depth_fps; // ƒtƒŒ[ƒ€ƒŒ[ƒg‚ÌŠi”[—p
+	// ãƒ‡ãƒ—ã‚¹ã‚«ãƒ¡ãƒ©è¨­å®šå€¤
+	uint32_t m_depth_width; // æ¨ªæ–¹å‘è§£åƒåº¦ã®æ ¼ç´ç”¨
+	uint32_t m_depth_height; // ç¸¦æ–¹å‘è§£åƒåº¦ã®æ ¼ç´ç”¨
+	uint32_t m_depth_fps; // ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆã®æ ¼ç´ç”¨
 
-	// IRƒJƒƒ‰İ’è’l
-	uint32_t m_IR_width; // ‰¡•ûŒü‰ğ‘œ“x‚ÌŠi”[—p
-	uint32_t m_IR_height; // c•ûŒü‰ğ‘œ“x‚ÌŠi”[—p
-	uint32_t m_IR_fps; // ƒtƒŒ[ƒ€ƒŒ[ƒg‚ÌŠi”[—p
+	// IRã‚«ãƒ¡ãƒ©è¨­å®šå€¤
+	uint32_t m_IR_width; // æ¨ªæ–¹å‘è§£åƒåº¦ã®æ ¼ç´ç”¨
+	uint32_t m_IR_height; // ç¸¦æ–¹å‘è§£åƒåº¦ã®æ ¼ç´ç”¨
+	uint32_t m_IR_fps; // ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆã®æ ¼ç´ç”¨
 	
-	rs2::pipeline m_pipeline; // ƒpƒCƒvƒ‰ƒCƒ“
+	rs2::pipeline m_pipeline; // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³
 };
 

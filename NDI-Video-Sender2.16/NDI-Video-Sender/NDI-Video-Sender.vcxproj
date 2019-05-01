@@ -76,8 +76,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\opencv320\build\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\include;C:\Program Files\NewTek\NewTek NDI SDK\Include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Intel RealSense SDK 2.0\lib\x64;C:\Program Files\NewTek\NewTek NDI SDK\Lib\x64;C:\opencv320\build\x64\vc14\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\opencv410\build\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\include;C:\Program Files\NewTek\NewTek NDI 3.8 SDK\Include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Intel RealSense SDK 2.0\lib\x64;C:\Program Files\NewTek\NewTek NDI 3.8 SDK\Lib\x64;C:\opencv320\build\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -164,7 +164,6 @@
     <ClInclude Include="ConfigRead.h" />
     <ClInclude Include="NdiCom.h" />
     <ClInclude Include="Realsense.h" />
-    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConfigRead.cpp" />

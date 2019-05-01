@@ -1,4 +1,4 @@
-#include "ConfigRead.h"
+﻿#include "ConfigRead.h"
 
 using namespace std;
 

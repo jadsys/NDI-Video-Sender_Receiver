@@ -1,4 +1,4 @@
-#include "NdiCom.h"
+﻿#include "NdiCom.h"
 
 using namespace std;
 

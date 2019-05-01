@@ -1,4 +1,4 @@
-// NDI-Video-Sender-win.cpp : アプリケーションのエントリ ポイントを定義します。
+﻿// NDI-Video-Sender-win.cpp : アプリケーションのエントリ ポイントを定義します。
 #include "NdiCom.h"
 #include "ConfigRead.h"
 #include "Realsense.h"
