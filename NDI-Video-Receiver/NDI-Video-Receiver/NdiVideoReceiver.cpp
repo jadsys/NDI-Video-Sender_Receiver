@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
     argv_no = atoi(argv[1]); // 起動引数をint型に変換して代入
 
     // リソース名の取得
-    str_readname = getResourceName(argv_no);
+    str_readname = "Sender" + to_string(argv_no);
 
     // コンフィグファイル読み込み失敗時
     if (str_readname == "")

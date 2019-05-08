@@ -151,38 +151,47 @@ void NdiCom::recVideo()
                 m_exit_rec_loop = true;
                 cv::destroyWindow(m_str_resname);
                 break;
-            case 49: // RGBモード
-                if (m_is_realsense)
-                {
-                    printf("RGB mode\n");
-                    camera_mode.p_data = "<RGB_mode enabled=\"true\"/>";
-                    NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                }
+            case '1': // カメラ1要求
+                camera_mode.p_data = "Request_CAM1";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
-            case 50: // Depthモード
-                if (m_is_realsense)
-                {
-                    printf("Depth mode\n");
-                    camera_mode.p_data = "<Depth_mode enabled=\"true\"/>";
-                    NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                }
+            case '2': // カメラ2要求
+                camera_mode.p_data = "Request_CAM1";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
-            case 51: // IR1モード
-                if (m_is_realsense)
-                {
-                    printf("IR LEFT mode\n");
-                    camera_mode.p_data = "<IR_left_mode enabled=\"true\"/>";
-                    NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                }
+            case '3': // カメラ3要求
+                camera_mode.p_data = "Request_CAM1";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
-            case 52: // IR2モード
-                if (m_is_realsense)
-                {
-                    printf("IR RIGHT mode\n");
-                    camera_mode.p_data = "<IR_right_mode enabled=\"true\"/>";
-                    NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                }
+            case '4': // カメラ4要求
+                camera_mode.p_data = "Request_CAM1";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
+            case '5': // カメラ5要求
+                camera_mode.p_data = "Request_CAM1";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+            case '6': // カメラ6要求
+                camera_mode.p_data = "Request_CAM1";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+            case 'q': // RGB要求
+                camera_mode.p_data = "<RGB_mode enabled=\"true\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+            case 'w': // DEPTH要求
+                camera_mode.p_data = "<Depth_mode enabled=\"true\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+            case 'e': // IR LEFT要求
+                camera_mode.p_data = "<IR_left_mode enabled=\"true\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+            case 'r': // IR RIGHT
+                camera_mode.p_data = "<IR_right_mode enabled=\"true\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+
             default:
                 break;
             }
