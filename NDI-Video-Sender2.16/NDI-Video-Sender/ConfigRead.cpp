@@ -1,4 +1,4 @@
-﻿#include "ConfigRead.h"
+#include "ConfigRead.h"
 
 using namespace std;
 
@@ -36,7 +36,7 @@ string ConfigRead::GetStringProperty(string op_name)
     {
         str_read_property = getDefaultValue(op_name); // デフォルトを読み込む
     }
-    std::transform(str_read_property.cbegin(), str_read_property.cend(), str_read_property.begin(), tolower);
+    std::transform(str_read_property.cbegin(), str_read_property.cend(), str_read_property.begin(), [](unsigned char c) -> unsigned char{return std::tolower(c);});
     return (str_read_property);
 }
 

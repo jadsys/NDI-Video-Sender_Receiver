@@ -1,4 +1,4 @@
-﻿#include "USBCamera.h"
+#include "USBCamera.h"
 
 
 

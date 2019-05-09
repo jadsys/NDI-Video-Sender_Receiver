@@ -7,10 +7,10 @@ NDISender::NDISender(VideoSourceManager* vsm, int sender_number)
     this->vsm = vsm;
     vsm->registSender(sender_number);
     string sender_name = "Sender" + to_string(sender_number);
-    NDI_send_create_desc.p_ndi_name = sender_name.c_str(); // ‘—MƒCƒ“ƒXƒ^ƒ“ƒX
-    NDI_send_create_desc.clock_video = true; // ‘—MŠÔ‚ğ“¯Šú‚³‚¹‚é‚©‚Ç‚¤‚©
-    NDI_send_create_desc.clock_audio = false; // ‘—MŠÔ‚ğ“¯Šú‚³‚¹‚é‚©‚Ç‚¤‚©
-    m_pNDI_send = NDIlib_send_create(&NDI_send_create_desc); // NDI‘—MƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+    NDI_send_create_desc.p_ndi_name = sender_name.c_str(); // é€ä¿¡ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+    NDI_send_create_desc.clock_video = true; // é€ä¿¡æ™‚é–“ã‚’åŒæœŸã•ã›ã‚‹ã‹ã©ã†ã‹
+    NDI_send_create_desc.clock_audio = false; // é€ä¿¡æ™‚é–“ã‚’åŒæœŸã•ã›ã‚‹ã‹ã©ã†ã‹
+    m_pNDI_send = NDIlib_send_create(&NDI_send_create_desc); // NDIé€ä¿¡ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
     if (m_pNDI_send == NULL) {
         cerr << "cannot create NDI sender instance" << endl;
         throw runtime_error("cannot create NDI sender instance");
@@ -27,9 +27,9 @@ void NDISender::sendThread()
         
         if (NDIlib_send_capture(m_pNDI_send, &metadata_desc, 0))
         {
-            string camera_change = metadata_desc.p_data; // ƒƒ^ƒf[ƒ^‚Ì–{‘Ì‚ğstringŒ^‚Ì•Ï”‚ÉŠi”[
-
-            // ƒJƒƒ‰ƒ‚[ƒh‚Ìƒ`ƒFƒ“ƒW
+            string camera_change = metadata_desc.p_data; // ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®æœ¬ä½“ã‚’stringå‹ã®å¤‰æ•°ã«æ ¼ç´
+            cout << camera_change << endl;
+            // ã‚«ãƒ¡ãƒ©ãƒ¢ãƒ¼ãƒ‰ã®ãƒã‚§ãƒ³ã‚¸
             if (camera_change.find("<RGB_mode enabled=\"true\"/>") != string::npos)
             {
                 vsm->setRealSenseMode(sender_number, cameraMode::RGB);
@@ -50,28 +50,31 @@ void NDISender::sendThread()
                 vsm->setRealSenseMode(sender_number, cameraMode::IR_RIGHT);
                 cout << "IR right mode enabled" << endl;
             }
-            else if (camera_change.find("Request_CAM1") != string::npos) {
+            else if (camera_change.find("<CAMERA=\"1\"/>") != string::npos) {
+                cout << "change to 1" << endl;
                 vsm->requestVideoSource(sender_number, 1);
             }
-            else if (camera_change.find("Request_CAM2") != string::npos) {
+            else if (camera_change.find("<CAMERA=\"2\"/>") != string::npos) {
+
+                cout << "change to 2" << endl;
                 vsm->requestVideoSource(sender_number, 2);
             }
-            else if (camera_change.find("Request_CAM3") != string::npos) {
+            else if (camera_change.find("<CAMERA=\"3\"/>") != string::npos) {
                 vsm->requestVideoSource(sender_number, 3);
             }
-            else if (camera_change.find("Request_CAM4") != string::npos) {
+            else if (camera_change.find("<CAMERA=\"4\"/>") != string::npos) {
                 vsm->requestVideoSource(sender_number, 4);
             }
-            else if (camera_change.find("Request_CAM5") != string::npos) {
+            else if (camera_change.find("<CAMERA=\"5\"/>") != string::npos) {
                 vsm->requestVideoSource(sender_number, 5);
             }
-            else if (camera_change.find("Request_CAM6") != string::npos) {
+            else if (camera_change.find("<CAMERA=\"6\"/>") != string::npos) {
                 vsm->requestVideoSource(sender_number, 6);
             
 
             }
 
-            // ‚±‚±‚Åƒf[ƒ^‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚è‚Ü‚·
+            // ã“ã“ã§ãƒ‡ãƒ¼ã‚¿ã‚’è§£æ”¾ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™
             NDIlib_send_free_metadata(m_pNDI_send, &metadata_desc);
         }
 
@@ -80,20 +83,20 @@ void NDISender::sendThread()
             continue;
         }
 
-        video_frame.xres = frame.cols; // ‰¡•ûŒü‰ğ‘œ“x‚Ìw’è
-        video_frame.yres = frame.rows; // c•ûŒü‰ğ‘œ“x‚Ìw’è
-        video_frame.FourCC = NDIlib_FourCC_type_BGRA; // m_sndNDIColorw’èæBƒtƒŒ[ƒ€‚ÌƒJƒ‰[ƒtƒH[ƒ}ƒbƒgw’è
+        video_frame.xres = frame.cols; // æ¨ªæ–¹å‘è§£åƒåº¦ã®æŒ‡å®š
+        video_frame.yres = frame.rows; // ç¸¦æ–¹å‘è§£åƒåº¦ã®æŒ‡å®š
+        video_frame.FourCC = NDIlib_FourCC_type_BGRA; // m_sndNDIColoræŒ‡å®šå…ˆã€‚ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚«ãƒ©ãƒ¼ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæŒ‡å®š
         video_frame.frame_format_type = NDIlib_frame_format_type_interleaved;
-        video_frame.p_data = (uint8_t*)malloc((uint64_t)frame.rows * (long long)frame.cols * 4); // ƒf[ƒ^ƒTƒCƒY‚Ìw’è
-        video_frame.line_stride_in_bytes = frame.rows * 4;
+        video_frame.p_data = (uint8_t*)malloc((uint64_t)frame.rows * (long long)frame.cols * 4); // ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºã®æŒ‡å®š
+        video_frame.line_stride_in_bytes = frame.cols * 4;
         if (video_frame.p_data == NULL) {
             throw bad_alloc();
         }
-        memcpy((void*)video_frame.p_data, frame.data, ((size_t)frame.rows * (size_t)frame.cols * 4)); // OpenCV‚ÌƒtƒŒ[ƒ€‚ğNDIƒtƒŒ[ƒ€ƒf[ƒ^‚ÉƒRƒs[
+        memcpy((void*)video_frame.p_data, frame.data, ((size_t)frame.rows * (size_t)frame.cols * 4)); // OpenCVã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’NDIãƒ•ãƒ¬ãƒ¼ãƒ ãƒ‡ãƒ¼ã‚¿ã«ã‚³ãƒ”ãƒ¼
 
         NDIlib_send_send_video_v2(m_pNDI_send, &video_frame);
 
-        cv::imshow("sender" + to_string(sender_number), frame);
+/*        cv::imshow("sender" + to_string(sender_number), frame);
         switch (cv::waitKey(1))
         {
         case '1':
@@ -102,9 +105,18 @@ void NDISender::sendThread()
         case '2':
             vsm->requestVideoSource(sender_number, 2);
             break;
+
+        case '3':
+            vsm->requestVideoSource(sender_number, 3);
+            break;
+
+        case '4':
+            vsm->requestVideoSource(sender_number, 4);
+            break;
         default:
             break;
         }
+*/
         free(video_frame.p_data);
     }
 

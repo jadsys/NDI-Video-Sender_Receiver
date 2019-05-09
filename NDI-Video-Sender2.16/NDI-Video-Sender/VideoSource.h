@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "ConfigRead.h"
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>

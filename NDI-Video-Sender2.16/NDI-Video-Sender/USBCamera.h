@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "VideoSource.h"
 class USBCamera :
     public VideoSource

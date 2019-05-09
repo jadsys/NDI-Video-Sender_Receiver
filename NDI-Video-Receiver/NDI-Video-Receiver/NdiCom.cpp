@@ -152,27 +152,28 @@ void NdiCom::recVideo()
                 cv::destroyWindow(m_str_resname);
                 break;
             case '1': // カメラ1要求
-                camera_mode.p_data = "Request_CAM1";
+
+                camera_mode.p_data = "<CAMERA=\"1\"/>";
                 NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
             case '2': // カメラ2要求
-                camera_mode.p_data = "Request_CAM1";
+                camera_mode.p_data = "<CAMERA=\"2\"/>";
                 NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
             case '3': // カメラ3要求
-                camera_mode.p_data = "Request_CAM1";
+                camera_mode.p_data = "<CAMERA=\"3\"/>";
                 NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
             case '4': // カメラ4要求
-                camera_mode.p_data = "Request_CAM1";
+                camera_mode.p_data = "<CAMERA=\"4\"/>";
                 NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
             case '5': // カメラ5要求
-                camera_mode.p_data = "Request_CAM1";
+                camera_mode.p_data = "<CAMERA=\"5\"/>";
                 NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
             case '6': // カメラ6要求
-                camera_mode.p_data = "Request_CAM1";
+                camera_mode.p_data = "<CAMERA=\"6\"/>";
                 NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
             case 'q': // RGB要求

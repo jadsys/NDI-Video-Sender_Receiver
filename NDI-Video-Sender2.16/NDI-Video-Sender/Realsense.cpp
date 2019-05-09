@@ -1,4 +1,4 @@
-﻿#include "RealSense.h"
+#include "Realsense.h"
 
 
 
@@ -66,12 +66,12 @@ cv::Mat RealSense::getFrame()
         break;
     case cameraMode::IR_LEFT:
         frame = frameset.get_infrared_frame(1);
-        mat_frame = cv::Mat(m_yres, m_xres, CV_8UC3, const_cast<void*>(frame.get_data()));
+        mat_frame = cv::Mat(m_yres, m_xres, CV_8UC1, const_cast<void*>(frame.get_data()));
         cv::cvtColor(mat_frame, rgba_frame, cv::COLOR_GRAY2BGRA);
         break;
     case cameraMode::IR_RIGHT:
-        frame = frameset.get_infrared_frame(1);
-        mat_frame = cv::Mat(m_yres, m_xres, CV_8UC3, const_cast<void*>(frame.get_data()));
+        frame = frameset.get_infrared_frame(2);
+        mat_frame = cv::Mat(m_yres, m_xres, CV_8UC1, const_cast<void*>(frame.get_data()));
         cv::cvtColor(mat_frame, rgba_frame, cv::COLOR_GRAY2BGRA);
         break;
 

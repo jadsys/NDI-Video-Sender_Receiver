@@ -17,10 +17,10 @@ VideoSourceManager::~VideoSourceManager()
 
 void VideoSourceManager::addVideoSource(int camera_numbeer)
 {
-    ConfigRead* config_read = new ConfigRead(); // ƒRƒ“ƒtƒBƒOƒtƒ@ƒCƒ‹“Ç‚Ýž‚Ýˆ——pƒCƒ“ƒXƒ^ƒ“ƒX
-    string str_int; // ‹N“®ˆø”‚ÅŽw’è‚µ‚½’l‚©‚çƒJƒƒ‰”Ô†‚ðÝ’è‚·‚é‚½‚ß‚Ì•Ï”
+    ConfigRead* config_read = new ConfigRead(); // ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿å‡¦ç†ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+    string str_int; // èµ·å‹•å¼•æ•°ã§æŒ‡å®šã—ãŸå€¤ã‹ã‚‰ã‚«ãƒ¡ãƒ©ç•ªå·ã‚’è¨­å®šã™ã‚‹ãŸã‚ã®å¤‰æ•°
     str_int = "_CAM";
-    str_int += to_string(camera_numbeer); // Žw’è‚µ‚½ƒJƒƒ‰”Ô†‚ðŠi”[
+    str_int += to_string(camera_numbeer); // æŒ‡å®šã—ãŸã‚«ãƒ¡ãƒ©ç•ªå·ã‚’æ ¼ç´
     string type = config_read->GetStringProperty("Camera_Types" + str_int);
     if (type == "web") {
         USBCamera* usb = new USBCamera(camera_numbeer);
@@ -41,14 +41,15 @@ void VideoSourceManager::addVideoSource(int camera_numbeer)
 
 void VideoSourceManager::registSender(int sender_number)
 {
-    thread_camera_map.insert(bimap_value_t(sender_number, sender_number));
+    thread_camera_map.insert(bimap_value_t(sender_number, sender_number - 1));
 }
 
 bool VideoSourceManager::requestVideoSource(int sender_number, int camera_number)
 {
+
     m.lock();
     bimap_t::right_iterator itr = thread_camera_map.right.find(thread_camera_map.left.at(sender_number));
-    const bool successful_replace = thread_camera_map.right.replace_key(itr, camera_number);
+    const bool successful_replace = thread_camera_map.right.replace_key(itr, camera_number - 1);
     m.unlock();
     return successful_replace;
 }
@@ -56,11 +57,11 @@ bool VideoSourceManager::requestVideoSource(int sender_number, int camera_number
 cv::Mat VideoSourceManager::getFrame(int sender_number)
 {
     int camera_number = thread_camera_map.left.at(sender_number);
-    return sources->at(camera_number - 1).videosource->getFrame();
+    return sources->at(camera_number).videosource->getFrame();
 }
 
 void VideoSourceManager::setRealSenseMode(int sender_number, cameraMode camera_mode)
 {
     int camera_number = thread_camera_map.left.at(sender_number);
-    sources->at(camera_number - 1).videosource->setCameraMode(camera_mode);
+    sources->at(camera_number).videosource->setCameraMode(camera_mode);
 }

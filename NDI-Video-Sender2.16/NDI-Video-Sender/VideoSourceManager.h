@@ -2,7 +2,7 @@
 #include <vector>
 #include "VideoSource.h"
 #include "USBCamera.h"
-#include "RealSense.h"
+#include "Realsense.h"
 #include <opencv2/core.hpp>
 #include <mutex>
 #include <boost/bimap/bimap.hpp>

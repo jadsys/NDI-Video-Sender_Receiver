@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma one
 #include "VideoSource.h"
 #include <librealsense2/rs.hpp>
 #include <opencv2/imgproc.hpp>
