@@ -4,7 +4,9 @@
 #include <opencv2/imgproc.hpp>
 
 
-
+/**
+ * RealSense用映像ソースクラス
+ */
 class RealSense :
     public VideoSource
 {

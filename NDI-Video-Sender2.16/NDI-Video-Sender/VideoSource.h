@@ -6,6 +6,9 @@
 #include <stdexcept>
 using namespace std;
 
+/***
+ * カメラモード一覧
+ */
 typedef enum _camera_mode {
     RGB,
     DEPTH,
@@ -13,18 +16,25 @@ typedef enum _camera_mode {
     IR_RIGHT
 }cameraMode;
 
+/***
+ * 映像ソースの抽象クラス
+ * ソースに合わせてオーバーライドする
+ */
 class VideoSource
 {
 public:
     VideoSource(int camera_number);
-    ~VideoSource();
+
+    virtual ~VideoSource() = 0;
+
     virtual cv::Mat getFrame() = 0;
+
+    // カメラモードの切り替えをすべてのソースに実装する
+    //　必要ない場合は何もしない
     virtual void setCameraMode(cameraMode _camera_mode) = 0;
 protected:
     int m_xres; // x解像度
     int m_yres; // y解像度
     int m_sndfps; // FPS指定用
-    bool is_insert_time_stamp;
-    string resource_name;
 };
 
