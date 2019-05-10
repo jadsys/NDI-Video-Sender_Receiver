@@ -5,8 +5,8 @@
 VideoSourceManager::VideoSourceManager()
 {
     sources = new vector<VideoSource *>();
-    using_flag = new vector<int>();
     flip_flags = new vector<bool>();
+    descriptions = new vector<string>();
 }
 
 
@@ -16,7 +16,7 @@ VideoSourceManager::~VideoSourceManager()
         delete *itr;
     }
     delete sources;
-    delete using_flag;
+    delete descriptions;
 }
 
 void VideoSourceManager::addVideoSource(int camera_numbeer)
@@ -37,6 +37,8 @@ void VideoSourceManager::addVideoSource(int camera_numbeer)
     }
     bool flip_flag = config_read->GetBoolProperty("FLIP" + str_int);
     flip_flags->push_back(flip_flag);
+    string description = config_read->GetStringProperty("description" + str_int);
+    descriptions->push_back(description);
 
 }
 
@@ -76,12 +78,33 @@ cv::Mat VideoSourceManager::getFrame(int sender_number)
 {
     cv::Mat frame;
     cv::Mat post_frame;
+    cv::Point point(30, 600);
     int camera_number = thread_camera_map.left.at(sender_number);
     frame = sources->at(camera_number)->getFrame();
     if (flip_flags->at(camera_number)) {
         cv::rotate(frame, post_frame, cv::ROTATE_180);
-        return post_frame;
+        frame = post_frame;
     }
+    cv::putText(
+            frame,  // 画像
+            descriptions->at(camera_number), // 文字列
+            point, // 座標
+            cv::FONT_HERSHEY_SIMPLEX, // フォントの種類
+            0.8, // 文字の大きさ
+            cv::Scalar(255, 255, 255), // 文字の色
+            3 // 線の太さ
+    );
+
+    cv::putText( // インラインフォント
+            frame, // 画像
+            descriptions->at(camera_number), // 文字列
+            point, // 座標
+            cv::FONT_HERSHEY_SIMPLEX, // フォントの種類
+            0.8, // 文字の大きさ
+            cv::Scalar(0, 0, 0), // 文字の色
+            1, // 線の太さ
+            cv::LINE_AA // アンチエイリアス
+    );
     return frame;
 }
 

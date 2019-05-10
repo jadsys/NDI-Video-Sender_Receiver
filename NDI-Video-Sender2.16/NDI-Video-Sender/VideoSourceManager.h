@@ -33,8 +33,8 @@ private:
     std::mutex m;
 
     vector<VideoSource *> *sources;
-    vector<int>* using_flag;
     vector<bool> *flip_flags;
+    vector<string> *descriptions;
     // 双方向連想配列
     // スレッドとカメラを紐付ける
     bimap_t thread_camera_map;
