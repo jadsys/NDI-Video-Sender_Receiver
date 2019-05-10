@@ -6,6 +6,7 @@ VideoSourceManager::VideoSourceManager()
 {
     sources = new vector<VideoSource *>();
     using_flag = new vector<int>();
+    flip_flags = new vector<bool>();
 }
 
 
@@ -34,6 +35,8 @@ void VideoSourceManager::addVideoSource(int camera_numbeer)
         auto *rs = new RealSense(camera_numbeer);
         sources->push_back((VideoSource *) rs);
     }
+    bool flip_flag = config_read->GetBoolProperty("FLIP" + str_int);
+    flip_flags->push_back(flip_flag);
 
 }
 
@@ -71,8 +74,15 @@ bool VideoSourceManager::requestVideoSource(int sender_number, int camera_number
  */
 cv::Mat VideoSourceManager::getFrame(int sender_number)
 {
+    cv::Mat frame;
+    cv::Mat post_frame;
     int camera_number = thread_camera_map.left.at(sender_number);
-    return sources->at(camera_number)->getFrame();
+    frame = sources->at(camera_number)->getFrame();
+    if (flip_flags->at(camera_number)) {
+        cv::rotate(frame, post_frame, cv::ROTATE_180);
+        return post_frame;
+    }
+    return frame;
 }
 
 /**
