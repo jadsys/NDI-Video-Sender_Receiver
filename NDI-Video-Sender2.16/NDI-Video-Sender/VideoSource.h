@@ -25,7 +25,7 @@ class VideoSource
 public:
     VideoSource(int camera_number);
 
-    virtual ~VideoSource() = 0;
+    ~VideoSource();
 
     virtual cv::Mat getFrame() = 0;
 

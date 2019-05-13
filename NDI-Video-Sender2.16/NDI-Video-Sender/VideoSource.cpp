@@ -20,3 +20,6 @@ VideoSource::VideoSource(int camera_number)
 }
 
 
+VideoSource::~VideoSource()
+{
+}

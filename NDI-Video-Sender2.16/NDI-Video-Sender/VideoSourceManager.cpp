@@ -19,25 +19,26 @@ VideoSourceManager::~VideoSourceManager()
     delete descriptions;
 }
 
-void VideoSourceManager::addVideoSource(int camera_numbeer)
+void VideoSourceManager::addVideoSource(int camera_number)
 {
     auto *config_read = new ConfigRead(); // コンフィグファイル読み込み処理用インスタンス
     string str_int; // 起動引数で指定した値からカメラ番号を設定するための変数
     str_int = "_CAM";
-    str_int += to_string(camera_numbeer); // 指定したカメラ番号を格納
+    str_int += to_string(camera_number); // 指定したカメラ番号を格納
     //カメラタイプに合わせてインスタンスを作成し登録
     string type = config_read->GetStringProperty("Camera_Types" + str_int);
     if (type == "web") {
-        auto *usb = new USBCamera(camera_numbeer);
+        auto *usb = new USBCamera(camera_number);
         sources->push_back((VideoSource *) usb);
     }
     else if(type == "rs" || type == "realsense"){
-        auto *rs = new RealSense(camera_numbeer);
+        auto *rs = new RealSense(camera_number);
         sources->push_back((VideoSource *) rs);
     }
-    bool flip_flag = config_read->GetBoolProperty("FLIP" + str_int);
+    bool flip_flag = !config_read->GetBoolProperty("FLIP" + str_int);
     flip_flags->push_back(flip_flag);
     string description = config_read->GetStringProperty("description" + str_int);
+    description = to_string(camera_number) + ". " + description;
     descriptions->push_back(description);
 
 }
@@ -78,7 +79,7 @@ cv::Mat VideoSourceManager::getFrame(int sender_number)
 {
     cv::Mat frame;
     cv::Mat post_frame;
-    cv::Point point(30, 600);
+    cv::Point point(30, 450);
     int camera_number = thread_camera_map.left.at(sender_number);
     frame = sources->at(camera_number)->getFrame();
     if (flip_flags->at(camera_number)) {

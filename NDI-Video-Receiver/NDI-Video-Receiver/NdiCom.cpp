@@ -55,6 +55,8 @@ NdiCom::NdiCom(const int channel_no, const NDIlib_source_t& p_source)
 /* デストラクタ */
 NdiCom::~NdiCom()
 {
+
+                cv::destroyWindow(m_str_resname);
 }
 
 
@@ -146,11 +148,6 @@ void NdiCom::recVideo()
             // キー入力を待つ
             switch (cv::waitKey(1))
             {
-            case 3: // imshow中にCtrl+cが入力されたら終了
-            case 227: // windowsだとCtrl+cは3、LinuxだとCtrl+cが正しく認識できない。227が返る
-                m_exit_rec_loop = true;
-                cv::destroyWindow(m_str_resname);
-                break;
             case '1': // カメラ1要求
 
                 camera_mode.p_data = "<CAMERA=\"1\"/>";
