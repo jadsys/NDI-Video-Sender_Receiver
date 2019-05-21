@@ -91,9 +91,10 @@ cv::Mat VideoSourceManager::getFrame(int sender_number)
             descriptions->at(camera_number), // 文字列
             point, // 座標
             cv::FONT_HERSHEY_SIMPLEX, // フォントの種類
-            0.8, // 文字の大きさ
+            1.2, // 文字の大きさ
             cv::Scalar(255, 255, 255), // 文字の色
-            3 // 線の太さ
+            10, // 線の太さ
+            cv::LINE_AA
     );
 
     cv::putText( // インラインフォント
@@ -101,9 +102,9 @@ cv::Mat VideoSourceManager::getFrame(int sender_number)
             descriptions->at(camera_number), // 文字列
             point, // 座標
             cv::FONT_HERSHEY_SIMPLEX, // フォントの種類
-            0.8, // 文字の大きさ
+            1.2, // 文字の大きさ
             cv::Scalar(0, 0, 0), // 文字の色
-            1, // 線の太さ
+            3, // 線の太さ
             cv::LINE_AA // アンチエイリアス
     );
     return frame;
