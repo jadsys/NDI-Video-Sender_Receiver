@@ -1,6 +1,6 @@
 #pragma once
 #include "VideoSource.h"
-
+#include <opencv2/imgproc.hpp>
 /**
  * USB接続カメラ用映像クラス
  */

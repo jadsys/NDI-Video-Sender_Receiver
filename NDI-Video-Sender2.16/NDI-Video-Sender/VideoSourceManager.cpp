@@ -40,7 +40,6 @@ void VideoSourceManager::addVideoSource(int camera_number)
     string description = config_read->GetStringProperty("description" + str_int);
     description = to_string(camera_number) + ". " + description;
     descriptions->push_back(description);
-
 }
 
 /***
@@ -79,13 +78,14 @@ cv::Mat VideoSourceManager::getFrame(int sender_number)
 {
     cv::Mat frame;
     cv::Mat post_frame;
-    cv::Point point(30, 450);
     int camera_number = thread_camera_map.left.at(sender_number);
     frame = sources->at(camera_number)->getFrame();
     if (flip_flags->at(camera_number)) {
         cv::rotate(frame, post_frame, cv::ROTATE_180);
         frame = post_frame;
     }
+
+    cv::Point point(30, frame.rows - 30);
     cv::putText(
             frame,  // 画像
             descriptions->at(camera_number), // 文字列
