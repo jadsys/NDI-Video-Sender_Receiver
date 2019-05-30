@@ -345,11 +345,7 @@ void NdiCom::writeDecodeResult(cv::Mat &im, vector<decodedObject>&decodedObjects
          cv::FONT_HERSHEY_SIMPLEX, // フォントの種類
          1.2, // 文字の大きさ
          cv::Scalar(0, 0, 0), // 文字の色
-<<<<<<< HEAD
          3, // 線の太さ
-=======
-         1, // 線の太さ
->>>>>>> a7abda7e7ce5fc6b9ef3f0aff1ad846c124f84af
          cv::LINE_AA // アンチエイリアス
      );
    }
