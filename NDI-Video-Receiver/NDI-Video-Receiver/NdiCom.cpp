@@ -127,7 +127,6 @@ void NdiCom::recVideo()
             m_frame_xres = video_frame.xres;
             m_frame_yres = video_frame.yres;
             m_frame_xy = m_frame_xres * m_frame_yres;
-
             // 1回目のみ処理を行う
             if (!isInitialized)
             {
@@ -173,7 +172,7 @@ void NdiCom::recVideo()
                      0.8, // 文字の大きさ
                      cv::Scalar(0, 0, 255), // 文字の色
                      1, // 線の太さ
-                     CV_AA // アンチエイリアス
+                     cv::LINE_AA // アンチエイリアス
                  );
                 break;
 
@@ -294,7 +293,7 @@ void NdiCom::decode(cv::Mat &im, vector<decodedObject>&decodedObjects)
    
   // Convert image to grayscale
   cv::Mat imGray;
-  cv::cvtColor(im, imGray,CV_BGR2GRAY);
+  cv::cvtColor(im, imGray,cv::COLOR_BGR2GRAY);
  
   // Wrap image data in a zbar image
   Image image(im.cols, im.rows, "Y800", (uchar *)imGray.data, im.cols * im.rows);
@@ -346,7 +345,11 @@ void NdiCom::writeDecodeResult(cv::Mat &im, vector<decodedObject>&decodedObjects
          cv::FONT_HERSHEY_SIMPLEX, // フォントの種類
          1.2, // 文字の大きさ
          cv::Scalar(0, 0, 0), // 文字の色
+<<<<<<< HEAD
          3, // 線の太さ
+=======
+         1, // 線の太さ
+>>>>>>> a7abda7e7ce5fc6b9ef3f0aff1ad846c124f84af
          cv::LINE_AA // アンチエイリアス
      );
    }

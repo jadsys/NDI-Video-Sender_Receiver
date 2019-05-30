@@ -17,10 +17,10 @@ USBCamera::USBCamera(int camera_number):VideoSource(camera_number)
 
     //デバイスを開く
     capture = new cv::VideoCapture();
-    capture->open(USBCam_number + cv::CAP_FFMPEG);
+    capture->open(USBCam_number, cv::CAP_V4L);
 
     if (!capture->isOpened()) {
-        cerr << "cannot open No." << camera_number << "camera" << endl;
+        cerr << "cannot open No." << camera_number << " camera" << endl;
         throw runtime_error("cannot open No." + to_string(camera_number) + "camera");
     }
 
@@ -32,7 +32,7 @@ USBCamera::USBCamera(int camera_number):VideoSource(camera_number)
     m_xres = (int)capture->get(cv::CAP_PROP_FRAME_WIDTH); // 横方向
     m_yres = (int)capture->get(cv::CAP_PROP_FRAME_HEIGHT); // 縦方向
     cv::Mat frame;
-    while (frame.empty()) {
+    while(frame.empty()){
         capture->read(frame);
     }
 }
@@ -51,10 +51,12 @@ USBCamera::~USBCamera()
  */
 cv::Mat USBCamera::getFrame() {
     cv::Mat frame;
+    cv::Mat bgra_frame;
     while (frame.empty()) {
         capture->read(frame);
     }
-    return frame;
+    cv::cvtColor(frame, bgra_frame, cv::COLOR_BGR2BGRA);
+    return bgra_frame;
 }
 
 void USBCamera::setCameraMode(cameraMode _camera_mode)

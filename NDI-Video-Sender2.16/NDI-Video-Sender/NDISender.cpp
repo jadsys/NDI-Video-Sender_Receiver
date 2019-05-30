@@ -65,7 +65,6 @@ void NDISender::sendThread() {
         if (frame.empty()) {
             continue;
         }
-
         video_frame.xres = frame.cols; // 横方向解像度の指定
         video_frame.yres = frame.rows; // 縦方向解像度の指定
         video_frame.FourCC = NDIlib_FourCC_type_BGRA; // m_sndNDIColor指定先。フレームのカラーフォーマット指定
