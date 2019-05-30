@@ -3,7 +3,7 @@
 
 
 using namespace std;
-
+using namespace zbar;
 
 /****************************************************************************
 *
@@ -47,7 +47,7 @@ NdiCom::NdiCom(const int channel_no, const NDIlib_source_t& p_source)
         cerr << "NDIlib_recv_instance_t create failure." << endl;
         return;
     }
-
+    img_proc = imageProcessing::NONE;
     // Start a thread to receive frames
     creatRecVideoThread(); // 受信用Threadの作成
 }
@@ -55,6 +55,8 @@ NdiCom::NdiCom(const int channel_no, const NDIlib_source_t& p_source)
 /* デストラクタ */
 NdiCom::~NdiCom()
 {
+
+                cv::destroyWindow(m_str_resname);
 }
 
 
@@ -93,7 +95,7 @@ void NdiCom::recVideo()
     NDIlib_video_frame_v2_t video_frame; // 映像用フレームの生成
     cv::Point point(30, 30); // タイムスタンプの座標指定
     m_exit_rec_loop = false; // 受信終了フラグ
-
+    cv::Mat post_frame;
     while (!m_exit_rec_loop)
     {
         // 受信開始
@@ -125,13 +127,13 @@ void NdiCom::recVideo()
             m_frame_xres = video_frame.xres;
             m_frame_yres = video_frame.yres;
             m_frame_xy = m_frame_xres * m_frame_yres;
-
+/*
             // 1回目のみ処理を行う
             if (!isInitialized)
-            {
+            {*/
                 m_rcvframe = cv::Mat::zeros(cv::Size(m_frame_xres, m_frame_yres), CV_8UC4); // 初期化
                 isInitialized = true; // 初期化完了
-            }
+            //}
 
             memcpy(m_rcvframe.data, video_frame.p_data, m_frame_xy * 4); // NDIフレームデータをOpenCVのフレームにコピー
 
@@ -141,48 +143,99 @@ void NdiCom::recVideo()
                 resize(m_rcvframe, m_rcvframe, cv::Size(), 1, 2); // 低解像度向け
             }
 
-            imshow(m_str_resname, m_rcvframe); // フレームの表示
+			vector<decodedObject> decodedObjects;
+            cv::Point process_info_point(30, 30);
+            switch(img_proc)
+            {
+            case imageProcessing::NONE:
+                post_frame = m_rcvframe;
+                break;
+            case imageProcessing::QR:
+
+
+			    decode(m_rcvframe, decodedObjects);
+                writeDecodeResult(post_frame,  decodedObjects);
+
+                 cv::putText(
+                     post_frame, // 画像
+                     "QR", // 文字列
+                     process_info_point, // 座標
+                     cv::FONT_HERSHEY_SIMPLEX, // フォントの種類
+                     0.8, // 文字の大きさ
+                     cv::Scalar(255, 255, 255), // 文字の色
+                     3 // 線の太さ
+                 );
+                 cv::putText( // インラインフォント
+                     post_frame, // 画像
+                     "QR", // 文字列
+                     process_info_point, // 座標
+                     cv::FONT_HERSHEY_SIMPLEX, // フォントの種類
+                     0.8, // 文字の大きさ
+                     cv::Scalar(0, 0, 255), // 文字の色
+                     1, // 線の太さ
+                     cv::LINE_AA // アンチエイリアス
+                 );
+                break;
+
+            default:
+                post_frame = m_rcvframe;
+                break;
+                
+            }
+            imshow(m_str_resname, post_frame); // フレームの表示
 
             // キー入力を待つ
             switch (cv::waitKey(1))
             {
-            case 3: // imshow中にCtrl+cが入力されたら終了
-            case 227: // windowsだとCtrl+cは3、LinuxだとCtrl+cが正しく認識できない。227が返る
-                m_exit_rec_loop = true;
-                cv::destroyWindow(m_str_resname);
+            case '1': // カメラ1要求
+
+                camera_mode.p_data = "<CAMERA=\"1\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
-            case 49: // RGBモード
-                if (m_is_realsense)
-                {
-                    printf("RGB mode\n");
-                    camera_mode.p_data = "<RGB_mode enabled=\"true\"/>";
-                    NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                }
+            case '2': // カメラ2要求
+                camera_mode.p_data = "<CAMERA=\"2\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
-            case 50: // Depthモード
-                if (m_is_realsense)
-                {
-                    printf("Depth mode\n");
-                    camera_mode.p_data = "<Depth_mode enabled=\"true\"/>";
-                    NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                }
+            case '3': // カメラ3要求
+                camera_mode.p_data = "<CAMERA=\"3\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
-            case 51: // IR1モード
-                if (m_is_realsense)
-                {
-                    printf("IR LEFT mode\n");
-                    camera_mode.p_data = "<IR_left_mode enabled=\"true\"/>";
-                    NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                }
+            case '4': // カメラ4要求
+                camera_mode.p_data = "<CAMERA=\"4\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
-            case 52: // IR2モード
-                if (m_is_realsense)
-                {
-                    printf("IR RIGHT mode\n");
-                    camera_mode.p_data = "<IR_right_mode enabled=\"true\"/>";
-                    NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                }
+            case '5': // カメラ5要求
+                camera_mode.p_data = "<CAMERA=\"5\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
+            case '6': // カメラ6要求
+                camera_mode.p_data = "<CAMERA=\"6\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+            case 'q': // RGB要求
+                camera_mode.p_data = "<RGB_mode enabled=\"true\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+            case 'w': // DEPTH要求
+                camera_mode.p_data = "<Depth_mode enabled=\"true\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+            case 'e': // IR LEFT要求
+                camera_mode.p_data = "<IR_left_mode enabled=\"true\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+            case 'r': // IR RIGHT
+                camera_mode.p_data = "<IR_right_mode enabled=\"true\"/>";
+                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
+                break;
+            
+            case 'a':
+                img_proc = imageProcessing::NONE;
+                break;
+            case 's':
+                img_proc = imageProcessing::QR;
+                break;
+
             default:
                 break;
             }
@@ -225,4 +278,78 @@ void NdiCom::DeleteRecVideoThread()
             }
         }
     }
+}
+
+
+
+// Find and decode barcodes and QR codes
+void NdiCom::decode(cv::Mat &im, vector<decodedObject>&decodedObjects)
+{
+   
+  // Create zbar scanner
+  ImageScanner scanner;
+ 
+  // Configure scanner
+  scanner.set_config(ZBAR_NONE, ZBAR_CFG_ENABLE, 1);
+   
+  // Convert image to grayscale
+  cv::Mat imGray;
+  cv::cvtColor(im, imGray,cv::COLOR_BGR2GRAY);
+ 
+  // Wrap image data in a zbar image
+  Image image(im.cols, im.rows, "Y800", (uchar *)imGray.data, im.cols * im.rows);
+ 
+  // Scan the image for barcodes and QRCodes
+  int n = scanner.scan(image);
+   
+  // Print results
+  for(Image::SymbolIterator symbol = image.symbol_begin(); symbol != image.symbol_end(); ++symbol)
+  {
+    decodedObject obj;
+     
+    obj.type = symbol->get_type_name();
+    obj.data = symbol->get_data();
+     
+     
+    // Obtain location
+    for(int i = 0; i< symbol->get_location_size(); i++)
+    {
+      obj.location.push_back(cv::Point(symbol->get_location_x(i),symbol->get_location_y(i)));
+    }
+     
+    decodedObjects.push_back(obj);
+  }
+}
+
+void NdiCom::writeDecodeResult(cv::Mat &im, vector<decodedObject>&decodedObjects)
+{
+  // Loop over all decoded objects
+  for(int i = 0; i < decodedObjects.size(); i++)
+  {
+    cv::Point point = decodedObjects[i].location[3];
+    string data =  decodedObjects[i].data;
+
+     cv::putText(
+         im, // 画像
+         data, // 文字列
+         point, // 座標
+         cv::FONT_HERSHEY_SIMPLEX, // フォントの種類
+         1.2, // 文字の大きさ
+         cv::Scalar(255, 255, 0), // 文字の色
+         10, // 線の太さ
+         cv::LINE_AA
+     );
+     cv::putText( // インラインフォント
+         im, // 画像
+         data, // 文字列
+         point, // 座標
+         cv::FONT_HERSHEY_SIMPLEX, // フォントの種類
+         1.2, // 文字の大きさ
+         cv::Scalar(0, 0, 0), // 文字の色
+         3, // 線の太さ
+         cv::LINE_AA // アンチエイリアス
+     );
+   }
+   
+   
 }

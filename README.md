@@ -1,9 +1,8 @@
 NDI Video Sender / NDI Video Receiver
 =======
 
-![image](https://github.com/jadsys/NDI-Video-Sender_Receiver/wiki/images/image_01.png)
 
-** NDI Video Sender / NDI Video Receiver ** は、Windows/Ubuntuで動作する  
+** NDI Video Sender / NDI Video Receiver ** は、Linuxで動作する  
 [NewTek NDI]プロトコルのサンプルプログラムで、ローカルエリアネットワーク経由で  
 複数のコンピュータ間でビデオを送受信できます。  
   UVC規格のWebカメラ、IPカメラ、Depthカメラ(RealSense D435)からの映像をNDIプロトコルを  
@@ -15,11 +14,8 @@ NDI™ is a trademark of NewTek, Inc.
   
 System requirements & Installations
 -------------------
-Windowsのシステム要件および構築の手順については  
-"Installation manual (Windows) .pdf"をご参照下さい。  
-  
-Linux（Ubuntu）のシステム要件および構築の手順については  
-"Installation manual (Ubuntu) .pdf"をご参照下さい。  
+Linuxのシステム要件および構築の手順については  
+"Installation manual.md"をご参照下さい。  
   
 How to use
 --------------------
@@ -29,7 +25,7 @@ How to use
 1.Webカメラ or IPカメラ or Depthカメラ(RealSense)を接続する。  
   
 2.カメラの送信設定を行う。  
-  ソースフォルダ内にある「NdiVideoSender.config」を、実行ファイル(.exe)と  
+  ソースフォルダ内にある「NdiVideoSender.config」を、実行ファイルと  
   同じフォルダにコピーし、中身を編集する。  
   (編集内容については同ファイル内のコメント及び例をご参照下さい。  
    最大6個のカメラ設定を入れることが可能です)  

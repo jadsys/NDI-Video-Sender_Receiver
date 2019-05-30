@@ -6,7 +6,7 @@
 #include <string>
 #include <thread>
 #include <atomic>
-#include <opencv/cv.hpp>    // cvtColor
+//#include <opencv/cv.hpp>    // cvtColor
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -29,10 +29,22 @@
 #endif
 
 
+#include <zbar.h>
+
 #define NDI_REC_MAX     6
 
+using namespace std;
+typedef enum _img_proc{
+    NONE,
+    QR
+}imageProcessing;
 
 
+typedef struct{
+   string type;
+   string data;
+   vector <cv::Point> location;
+} decodedObject;
 class NdiCom
 {
 public:
@@ -55,7 +67,11 @@ private:
     NDIlib_recv_instance_t m_pNDI_recv; // 受信用インスタンス
     NDIlib_metadata_frame_t camera_mode;//RealSenseカメラの動作モード切り替え
     cv::Mat m_rcvframe; // 受信用フレーム
+    imageProcessing img_proc;
 
     void recVideo();
+    void decode(cv::Mat &im, vector<decodedObject>&decodedObjects);
+    void writeDecodeResult(cv::Mat &im, vector<decodedObject>&decodedObjects);
+ 
 };
 
