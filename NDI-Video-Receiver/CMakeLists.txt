@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
-project(NDI-Video-Switch-Sender)
+project(NDI-Video-Receiver)
 set(CMAKE_CXX_STANDARD 14)
 
 find_package(OpenCV REQUIRED)
-find_package(realsense2 REQUIRED)
 find_package(Threads REQUIRED)
 
 find_package(PkgConfig)
@@ -11,25 +10,18 @@ pkg_check_modules(NDI REQUIRED libndi)
 include_directories(${NDI_INCLUDE_DIRS})
 link_directories(${NDI_LIBRARY_DIRS})
 
+pkg_check_modules(ZBAR REQUIRED zbar)
+include_directories(${ZBAR_INCLUDE_DIRS})
+link_directories(${ZBAR_LIBRARY_DIRS})
 
 add_executable(${PROJECT_NAME}
         ConfigRead.cpp
-        ConfigRead.h
-        NDI-Switch-Sender.cpp
-        NDISender.cpp
-        NDISender.h
-        NdiVideoSender.config
-        Realsense.cpp
-        Realsense.h
-        USBCamera.cpp
-        USBCamera.h
-        VideoSource.cpp
-        VideoSource.h
-        VideoSourceManager.cpp
-        VideoSourceManager.h)
-target_link_libraries(${PROJECT_NAME} ${realsense2_LIBRARY})
-target_link_libraries(${PROJECT_NAME} Threads::Threads)
+        NdiCom.cpp
+        NdiVideoReceiver.cpp
+)
 target_link_libraries(${PROJECT_NAME} ${NDI_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${ZBAR_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} Threads::Threads)
 if(OpenCV_FOUND)
     # インクルードパスを指定
     include_directories(${OpenCV_INCLUDE_DIRS} )
