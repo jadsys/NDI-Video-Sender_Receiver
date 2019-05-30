@@ -127,12 +127,13 @@ void NdiCom::recVideo()
             m_frame_xres = video_frame.xres;
             m_frame_yres = video_frame.yres;
             m_frame_xy = m_frame_xres * m_frame_yres;
+/*
             // 1回目のみ処理を行う
             if (!isInitialized)
-            {
+            {*/
                 m_rcvframe = cv::Mat::zeros(cv::Size(m_frame_xres, m_frame_yres), CV_8UC4); // 初期化
                 isInitialized = true; // 初期化完了
-            }
+            //}
 
             memcpy(m_rcvframe.data, video_frame.p_data, m_frame_xy * 4); // NDIフレームデータをOpenCVのフレームにコピー
 
