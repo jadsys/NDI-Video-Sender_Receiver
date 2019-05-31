@@ -16,7 +16,7 @@ public:
 
     void setCameraMode(cameraMode _camera_mode) override;
 private:
-    int USBCam_number;
+    std::string USBCam_path;
     //キャプチャハンドル
     cv::VideoCapture* capture;
 };
