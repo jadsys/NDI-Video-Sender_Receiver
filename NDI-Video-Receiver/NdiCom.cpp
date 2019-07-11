@@ -183,33 +183,25 @@ void NdiCom::recVideo()
                 
             }
             imshow(m_str_resname, post_frame); // フレームの表示
-
+            auto key =  cv::waitKey(1);
+            int camera_number;
+            string send_str;
             // キー入力を待つ
-            switch (cv::waitKey(1))
+            switch (key)
             {
             case '1': // カメラ1要求
-
-                camera_mode.p_data = "<CAMERA=\"1\"/>";
-                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                break;
             case '2': // カメラ2要求
-                camera_mode.p_data = "<CAMERA=\"2\"/>";
-                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                break;
             case '3': // カメラ3要求
-                camera_mode.p_data = "<CAMERA=\"3\"/>";
-                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                break;
             case '4': // カメラ4要求
-                camera_mode.p_data = "<CAMERA=\"4\"/>";
-                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                break;
             case '5': // カメラ5要求
-                camera_mode.p_data = "<CAMERA=\"5\"/>";
-                NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
-                break;
             case '6': // カメラ6要求
-                camera_mode.p_data = "<CAMERA=\"6\"/>";
+            case '7': // カメラ7要求
+            case '8': // カメラ8要求
+            case '9': // カメラ9要求
+                camera_number = key - '0';
+                send_str = "<CAMERA=\"" + to_string(camera_number) +  "\"/>";
+                camera_mode.p_data = new char[send_str.size() + 1];
+                strcpy(camera_mode.p_data, send_str.c_str());
                 NDIlib_recv_send_metadata(m_pNDI_recv, &camera_mode); // メタデータ送信
                 break;
             case 'q': // RGB要求

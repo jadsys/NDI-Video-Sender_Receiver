@@ -53,6 +53,12 @@ void NDISender::sendThread() {
                 vsm->requestVideoSource(sender_number, 5);
             } else if (camera_change.find("<CAMERA=\"6\"/>") != string::npos) {
                 vsm->requestVideoSource(sender_number, 6);
+            } else if (camera_change.find("<CAMERA=\"7\"/>") != string::npos) {
+                vsm->requestVideoSource(sender_number, 7);
+            } else if (camera_change.find("<CAMERA=\"8\"/>") != string::npos) {
+                vsm->requestVideoSource(sender_number, 8);
+            } else if (camera_change.find("<CAMERA=\"9\"/>") != string::npos) {
+                vsm->requestVideoSource(sender_number, 9);
             }
 
             // ここでデータを解放する必要があります

@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
     // 起動オプションの引数チェック
     if (argc != 2 || atoi(argv[1]) <= 0 || NDI_REC_MAX < atoi(argv[1]))
     {
-        cerr << "起動オプション（カメラ番号1～6）を指定して下さい。プログラムを終了します。" << endl;
+        cerr << "送信スレッド番号を指定して下さい。プログラムを終了します。" << endl;
         return EXIT_FAILURE;
     }
 
