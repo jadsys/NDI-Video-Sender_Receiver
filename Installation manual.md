@@ -8,7 +8,7 @@
  * コンパイラ：gcc 　バージョン5.4.0  
 
  * 使用ライブラリ ：   
-Newtek NDI　バージョン3.5  
+Newtek NDI　バージョン3.8  
 OpenCV　バージョン4.1.0  
 RealSense バージョン 2.0 (buildバージョン ～2.16.0)  
 ZBar バージョン 0.10
@@ -29,8 +29,14 @@ ZBar バージョン 0.10
 
 zbarのインストール 
 --------------------
-```
+```bash
 # apt install libzbar0 libzbar0-dev
+```
+
+Boostrのインストール 
+--------------------
+```bash
+# apt install libboost-all-dev
 ```
 NewTek NDI SDK v3.5のインストール  
 --------------------
@@ -40,7 +46,7 @@ https://jp.newtek.com/ndi/sdk/
 ダウンロード時に名前やメールアドレスなどの送信が必要です。  
 
 **2、インストール**  
- ダウンロードされたInstallNDISDK_v3_Linux.shを、NDIをインストールしたいフォルダにコピーします。  
+ ダウンロードされたInstallNDISDK\_v3\_Linux.shを、NDIをインストールしたいフォルダにコピーします。  
  ターミナル上で以下のコマンドを入力します。  
 ```bash
 $ cd “コピーしたディレクトリ”  
@@ -99,7 +105,7 @@ OpenCV v4.1.0のインストール
 # apt install libatlas-base-dev gfortran  
 ```
 
-**5、GitHub上のOpenCV v3.2.0のリポジトリからクローンを行う**  
+**5、GitHub上のOpenCV v4.1.0のリポジトリからクローンを行う**  
 ターミナル上で以下のコマンドを実行します。  
 ```bash
 $ git clone https://github.com/opencv/opencv.git  
