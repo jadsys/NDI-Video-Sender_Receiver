@@ -21,7 +21,9 @@ USBCamera::USBCamera(int camera_number):VideoSource(camera_number)
 
     if (!capture->isOpened()) {
         cerr << "cannot open No." << camera_number << " camera" << endl;
-        throw runtime_error("cannot open No." + to_string(camera_number) + "camera");
+        open_failed = true;
+    }else{
+        open_failed = false;
     }
 
     capture->set(cv::CAP_PROP_FRAME_WIDTH, m_xres);  // 幅
@@ -50,13 +52,17 @@ USBCamera::~USBCamera()
  * @return カメラ画像のフレーム
  */
 cv::Mat USBCamera::getFrame() {
-    cv::Mat frame;
-    cv::Mat bgra_frame;
-    while (frame.empty()) {
-        capture->read(frame);
+    if(!open_failed) {
+        cv::Mat frame;
+        cv::Mat bgra_frame;
+        while (frame.empty()) {
+            capture->read(frame);
+        }
+        cv::cvtColor(frame, bgra_frame, cv::COLOR_BGR2BGRA);
+        return bgra_frame;
+    }else{
+        return cv::Mat(cv::Size(m_xres, m_yres), CV_8UC4, cv::Scalar(0, 0, 255, 255));
     }
-    cv::cvtColor(frame, bgra_frame, cv::COLOR_BGR2BGRA);
-    return bgra_frame;
 }
 
 void USBCamera::setCameraMode(cameraMode _camera_mode)

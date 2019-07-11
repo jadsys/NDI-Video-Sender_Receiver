@@ -36,5 +36,6 @@ protected:
     int m_xres; // x解像度
     int m_yres; // y解像度
     int m_sndfps; // FPS指定用
+    bool open_failed;
 };
 
