@@ -83,6 +83,25 @@ int ConfigRead::GetIntProperty(string op_name)
     return (int_read_property);
 }
 
+/* コンフィグからの値取得(double型) */
+double ConfigRead::GetDoubleProperty(std::string op_name) {
+
+    string str_read_property = readConfigFile(op_name); // configファイルから読み込んだ生の値を格納用
+    double double_read_property; // int型に変換した値の格納用
+
+
+    // string型→int型へ変換
+    try {
+        double_read_property = stod(str_read_property);
+    } catch (const std::invalid_argument &e) {
+        std::cerr << e.what() << "in" << op_name << endl;
+        double_read_property = 0.0;
+    }
+
+    return (double_read_property);
+}
+
+
 /* デフォルト値の読み込み */
 string ConfigRead::getDefaultValue(string op_name)
 {
@@ -95,7 +114,7 @@ string ConfigRead::getDefaultValue(string op_name)
 *
 *****************************************************************************/
 /* デフォルト値の設定 */
-void ConfigRead::setDefaltValue(string op_name)
+void ConfigRead::setDefaultValue(string op_name)
 {
     // op_nameに入ってきたオプションに一致するデフォルト値が入る
     if (!op_name.find("SwitchCamera", 0))
@@ -162,7 +181,7 @@ string ConfigRead::readConfigFile(string op_name)
     string str_property; // プロパティ格納用
 
     // 検索前の初期化
-    setDefaltValue(op_name);
+    setDefaultValue(op_name);
 
     // configファイル読み込み
     ifstream iconfig_stream(CONFIG_FILE_NAME);
@@ -348,4 +367,5 @@ bool ConfigRead::checkValue(string value)
     }
     return (true);
 }
+
 

@@ -4,8 +4,14 @@
 #include "USBCamera.h"
 #include "Realsense.h"
 #include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
 #include <mutex>
 #include <boost/bimap/bimap.hpp>
+#include <cmath>
+
+#define ABS(X) (((X) > 0) ? (X): (-X))
+
+#define COMPARE_EPSILON 1e-4
 
 typedef boost::bimaps::bimap<int, int> bimap_t;
 typedef bimap_t::value_type bimap_value_t;
@@ -35,8 +41,12 @@ private:
     vector<VideoSource *> *sources;
     vector<bool> *flip_flags;
     vector<string> *descriptions;
+    vector<double> *rotation_angles;
     // 双方向連想配列
     // スレッドとカメラを紐付ける
     bimap_t thread_camera_map;
+
+    void rotateImage(cv::Mat &in, cv::Mat &out, double angle);
+
 };
 
