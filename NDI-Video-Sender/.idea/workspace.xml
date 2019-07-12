@@ -11,14 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7e9db53-c906-4f10-b047-626491c3fe71" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/NDI-Video-Sender_Receiver.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../NDI-Video-Receiver/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../NDI-Video-Receiver/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="f7e9db53-c906-4f10-b047-626491c3fe71" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -250,15 +243,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1562912098605</updated>
-      <workItem from="1562912099704" duration="608000" />
+      <workItem from="1562912099704" duration="813000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="608000" />
+    <option name="totallyTimeSpent" value="813000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="27" width="1932" height="1034" extended-state="7" />
+    <frame x="-6" y="27" width="1932" height="1034" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
