@@ -1,4 +1,5 @@
 #pragma once
+
 #include <vector>
 #include "VideoSource.h"
 #include "USBCamera.h"
@@ -19,8 +20,7 @@ typedef bimap_t::value_type bimap_value_t;
 /**
  * 映像ソースを管理し、切り替えるクラス
  */
-class VideoSourceManager
-{
+class VideoSourceManager {
 public:
     VideoSourceManager();
 
@@ -35,6 +35,7 @@ public:
     cv::Mat getFrame(int sender_number);
 
     void setRealSenseMode(int sender_number, cameraMode camera_mode);
+
 private:
     std::mutex m;
 
