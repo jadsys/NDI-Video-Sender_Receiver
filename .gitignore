@@ -531,3 +531,4 @@ tags
 [._]*.un~
 
 build/
+cmake-build-debug/
